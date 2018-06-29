@@ -1,0 +1,9 @@
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\bin\Release\SroBasic.exe.config
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\bin\Release\SroBasic.exe
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\bin\Release\SroBasic.pdb
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.csprojResolveAssemblyReference.cache
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.frmMain.resources
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.Properties.Resources.resources
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.csproj.GenerateResource.Cache
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.exe
+C:\Users\admin\Google Drive\SyncGoogleDriver\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Release\SroBasic.pdb
