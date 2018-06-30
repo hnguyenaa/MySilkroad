@@ -120,6 +120,7 @@
     <Compile Include="Models\PacketData\Server.cs" />
     <Compile Include="Metadata\MediaData.cs" />
     <Compile Include="Models\PacketData\SingleSpawn.cs" />
+    <Compile Include="Models\RefObj.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Skilltrain.cs" />
     <Compile Include="Program.cs" />
