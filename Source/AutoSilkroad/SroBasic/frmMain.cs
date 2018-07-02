@@ -73,17 +73,17 @@ namespace SroBasic
         }
 
 
-        //[DllImport("kernel32.dll")]
-        //static extern IntPtr OpenProcess(uint dwDesiredAccess, int bInheritHandle, int dwProcessId);
-        //[DllImport("kernel32.dll")]
-        //static extern uint WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, uint lpNumberOfBytesWritten);
-        //[DllImport("kernel32.dll")]
-        //static extern uint VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, uint flAllocationType, uint flProtect);
-        //[DllImport("kernel32.dll")]
-        //static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
-        //public static IntPtr Handle;
-        //public static IntPtr SROHandle;
-        //private Process Started;
+        [DllImport("kernel32.dll")]
+        static extern IntPtr OpenProcess(uint dwDesiredAccess, int bInheritHandle, int dwProcessId);
+        [DllImport("kernel32.dll")]
+        static extern uint WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, uint lpNumberOfBytesWritten);
+        [DllImport("kernel32.dll")]
+        static extern uint VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, uint flAllocationType, uint flProtect);
+        [DllImport("kernel32.dll")]
+        static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
+        public static IntPtr Handle;
+        public static IntPtr SROHandle;
+        private Process Started;
         private void btnStart_Click(object sender, EventArgs e)
         {
 
@@ -166,7 +166,7 @@ namespace SroBasic
                 timerClientPing.Enabled = false;
                 ProxyClientless.StopGateway();
                 ProxyClientless.StopAgent();
-                //Started.Kill();
+                Started.Kill();
             }
 
             
@@ -550,7 +550,6 @@ namespace SroBasic
             SroBasic.Controllers.ParsePacket._0x3013.DoWork(_0x3013Packet);
             SroBasic.Controllers.ParsePacket._0x3020.DoWork(_0x3020Packet);
 
-            Views.BindingFrom.WriteDebugPacket(_0x3013Packet);
         }
 
         private void btnSelectSkillTrain_Click(object sender, EventArgs e)
@@ -581,8 +580,34 @@ namespace SroBasic
 
         private void timerClientPing_Tick(object sender, EventArgs e)
         {
-            Packet p = new Packet(0x750E);
-            SroBasic.Controllers.ThreadProxy.ProxyClientless.SendPacketToGatewayRemote(p);            
+            //Packet p = new Packet(0x750E);
+            //SroBasic.Controllers.ThreadProxy.ProxyClientless.SendPacketToGatewayRemote(p);            
+
+            lblCharacterName.Text = "Cast " + count++;
+            lblCharacterLevel.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff");
+            timerClientPing.Enabled = false;
+            timerClientPing.Interval = 1;
+        }
+
+        static int count = 0;
+        //static DateTime currentTime = new DateTime();
+        private void button1_Click(object sender, EventArgs e)
+        {
+            lblCharacterLevel.Text = DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss.fff");
+            timerClientPing.Interval = 1000;
+            //timerClientPing.Enabled = true;
+            if (timerClientPing.Enabled){
+                //timerClientPing.Stop();
+                //timerClientPing.Enabled = false;
+            }
+            else
+            {
+                timerClientPing.Start();
+                //timerClientPing.Enabled = true;
+            }
+                
+            
+            //timerClientPing_Tick(sender, e);
         }
 
         private void btnStartTrain_Click(object sender, EventArgs e)
@@ -684,24 +709,6 @@ namespace SroBasic
         {
             if (rdoIncreaseIntellect.Checked)
                 Metadata.Config.IncreaseStatPointType = Metadata.IncreaseStatPointType.None;
-        }
-
-        private void btnTestAttack_Click(object sender, EventArgs e)
-        {   Packet packet = new Packet(0x00);
-            if(!string.IsNullOrEmpty(txtMobId.Text) &&!string.IsNullOrEmpty(txtSkillId.Text))
-            {
-                packet = GeneratePacket.AttackSkill(Convert.ToUInt32(txtSkillId.Text), Convert.ToUInt32(txtMobId.Text));
-            }
-            else if (string.IsNullOrEmpty(txtMobId.Text) && !string.IsNullOrEmpty(txtSkillId.Text))
-            {
-                packet = GeneratePacket.BuffSkill(Convert.ToUInt32(txtSkillId.Text));
-            }
-            else if (!string.IsNullOrEmpty(txtMobId.Text) && string.IsNullOrEmpty(txtSkillId.Text))
-            {
-                packet = GeneratePacket.AttackNormal(Convert.ToUInt32(txtMobId.Text));
-            }
-
-            SroBasic.Controllers.ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
         }
 
 

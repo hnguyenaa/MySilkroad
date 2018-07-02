@@ -1,3 +1,2 @@
 //using,SroType,Locale,Version,IP,Port
 1,vSro,22,229,193.70.40.140,15779
-0,vSro,22,229,138.201.250.105,21210

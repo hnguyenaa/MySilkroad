@@ -52,18 +52,6 @@ namespace SroBasic.Views
             frmMain.PrintLog(str);
         }
 
-        public static void WriteDebug(string str)
-        {
-            str = str + Environment.NewLine;
-            frmMain.PrintLog(str);
-        }
-        public static void WriteDebugPacket(SilkroadSecurityApi.Packet packet)
-        {
-            byte[] packet_bytes = packet.GetBytes();
-            string debug = String.Format("[{0:X4}][{1} bytes]{2}{3}{4}{5}", packet.Opcode, packet_bytes.Length, packet.Encrypted ? "[Encrypted]" : "", packet.Massive ? "[Massive]" : "", Environment.NewLine, SilkroadSecurityApi.Utility.HexDump(packet_bytes));
-            frmMain.PrintLog(debug + Environment.NewLine);
-        }
-
         #region Binding From
         public static void BindingServerCombobox(List<Server> servers)
         {

@@ -14,6 +14,26 @@ namespace Models
         Portals = 0x04
     }
 
+    public enum TypeID2 : byte
+    {
+        None = 0x00,
+        CHAR = 0x01,
+        NPC = 0x02,
+        ITEM_EQUIP = 0x01,
+        ITEM_ETC = 0x03,
+    }
+    public enum TypeID3 : byte
+    {
+        None = 0x00,
+        NPC_MOB = 0x02,
+        NPC_COS = 0x03,
+        NPC_FORTRESS_COS = 0x04,
+        NPC_FORTRESS_STRUCT = 0x05,
+        ITEM_ETC_MONEY_GOLD = 0x05,
+        ITEM_ETC_TRADE = 0x08,
+        ITEM_ETC_QUEST = 0x09
+    }
+
     public enum CharTypeID2 : byte
     {
         None = 0x00,
@@ -53,15 +73,15 @@ namespace Models
         ITEM_ETC_QUEST = 0x09
     }
 
-    public class RefObj<T2, T3> 
+    public interface RefObj<T2, T3> 
     {
-        uint ID { get; set; }
-        string CodeName { get; set; }
-        byte Bionic { get; set; }
-        TypeID1 TypeID1 { get; set; }
-        T2 TypeID2 { get; set; }
-        T3 TypeID3 { get; set; }
-        byte TypeID4 { get; set; }
+        public uint ID { get; set; }
+        public string CodeName { get; set; }
+        public byte Bionic { get; set; }
+        public TypeID1 TypeID1 { get; set; }
+        public T2 TypeID2 { get; set; }
+        public T3 TypeID3 { get; set; }
+        public byte TypeID4 { get; set; }
     }
 
     public class RefObjChar : RefObj<CharTypeID2, CharTypeID3>

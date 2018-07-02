@@ -45,12 +45,3 @@ D:\WORK\Personal\ProjectOnGoing\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\De
 D:\WORK\Personal\ProjectOnGoing\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.frmMain.resources
 D:\WORK\Personal\ProjectOnGoing\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.Properties.Resources.resources
 D:\WORK\Personal\ProjectOnGoing\AutoSilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.csproj.GenerateResource.Cache
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\bin\Debug\SroBasic.exe.config
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.csprojResolveAssemblyReference.cache
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.frmMain.resources
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.Properties.Resources.resources
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.csproj.GenerateResource.Cache
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\bin\Debug\SroBasic.exe
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\bin\Debug\SroBasic.pdb
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.exe
-D:\WORK\github\MySilkroad\Source\AutoSilkroad\SroBasic\obj\Debug\SroBasic.pdb
