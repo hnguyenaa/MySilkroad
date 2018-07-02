@@ -81,13 +81,18 @@
             this.lblCoordinateY = new System.Windows.Forms.Label();
             this.lblCoordinateX = new System.Windows.Forms.Label();
             this.btnStartTrain = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
             this.btnDebugCharacterData = new System.Windows.Forms.Button();
             this.chkClientless = new System.Windows.Forms.CheckBox();
             this.btnStart = new System.Windows.Forms.Button();
             this.timerClientPing = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.btnTestAttack = new System.Windows.Forms.Button();
+            this.txtSkillId = new System.Windows.Forms.TextBox();
+            this.txtMobId = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -105,6 +110,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -114,6 +120,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 134);
             this.tabControl1.Name = "tabControl1";
@@ -150,7 +157,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(742, 320);
+            this.tabPage2.Size = new System.Drawing.Size(728, 320);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Login";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -360,7 +367,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(742, 320);
+            this.tabPage3.Size = new System.Drawing.Size(728, 320);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Skill";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -668,19 +675,9 @@
             this.btnStartTrain.UseVisualStyleBackColor = true;
             this.btnStartTrain.Click += new System.EventHandler(this.btnStartTrain_Click);
             // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(234, 21);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(131, 23);
-            this.button1.TabIndex = 57;
-            this.button1.Text = "Debug Character Data";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
             // btnDebugCharacterData
             // 
-            this.btnDebugCharacterData.Location = new System.Drawing.Point(401, 5);
+            this.btnDebugCharacterData.Location = new System.Drawing.Point(240, 18);
             this.btnDebugCharacterData.Name = "btnDebugCharacterData";
             this.btnDebugCharacterData.Size = new System.Drawing.Size(131, 23);
             this.btnDebugCharacterData.TabIndex = 2;
@@ -727,7 +724,6 @@
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.panel3.Controls.Add(this.btnStart);
-            this.panel3.Controls.Add(this.button1);
             this.panel3.Controls.Add(this.chkClientless);
             this.panel3.Controls.Add(this.btnDebugCharacterData);
             this.panel3.Controls.Add(this.btnStartTrain);
@@ -736,6 +732,67 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(736, 134);
             this.panel3.TabIndex = 59;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.label6);
+            this.tabPage6.Controls.Add(this.label5);
+            this.tabPage6.Controls.Add(this.txtMobId);
+            this.tabPage6.Controls.Add(this.txtSkillId);
+            this.tabPage6.Controls.Add(this.btnTestAttack);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(728, 320);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // btnTestAttack
+            // 
+            this.btnTestAttack.Location = new System.Drawing.Point(48, 63);
+            this.btnTestAttack.Name = "btnTestAttack";
+            this.btnTestAttack.Size = new System.Drawing.Size(75, 23);
+            this.btnTestAttack.TabIndex = 3;
+            this.btnTestAttack.Text = "sent attack";
+            this.btnTestAttack.UseVisualStyleBackColor = true;
+            this.btnTestAttack.Click += new System.EventHandler(this.btnTestAttack_Click);
+            // 
+            // txtSkillId
+            // 
+            this.txtSkillId.Location = new System.Drawing.Point(50, 15);
+            this.txtSkillId.Name = "txtSkillId";
+            this.txtSkillId.Size = new System.Drawing.Size(100, 20);
+            this.txtSkillId.TabIndex = 4;
+            // 
+            // txtMobId
+            // 
+            this.txtMobId.Location = new System.Drawing.Point(50, 41);
+            this.txtMobId.Name = "txtMobId";
+            this.txtMobId.Size = new System.Drawing.Size(100, 20);
+            this.txtMobId.TabIndex = 5;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label5.Location = new System.Drawing.Point(6, 18);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(24, 13);
+            this.label5.TabIndex = 47;
+            this.label5.Text = "skill";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.label6.Location = new System.Drawing.Point(6, 44);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(27, 13);
+            this.label6.TabIndex = 48;
+            this.label6.Text = "mob";
             // 
             // frmMain
             // 
@@ -772,6 +829,8 @@
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
+            this.tabPage6.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -823,7 +882,6 @@
         private System.Windows.Forms.TabPage tabPage4;
         private System.Windows.Forms.DataGridView dgvSkillTrain;
         private System.Windows.Forms.DataGridView dgvMob;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnStartTrain;
         private System.Windows.Forms.Button btnSaveSkillTrain;
         private System.Windows.Forms.Button btnLoadSkillTrain;
@@ -837,6 +895,12 @@
         private System.Windows.Forms.RadioButton rdoIncreaseNone;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button btnTestAttack;
+        private System.Windows.Forms.TextBox txtMobId;
+        private System.Windows.Forms.TextBox txtSkillId;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
     }
 }
 
