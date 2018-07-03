@@ -105,6 +105,9 @@ namespace SroBasic
                 Proxy.SetGatewayRemoteEndPoint(gatewayRemoteEP);
                 Proxy.StartGateway();
             }
+
+            if (!chkExternLoader.Checked)
+                ClientProcess.StartProcess();
             //if (Metadata.Config.SroPath != "" && File.Exists(Metadata.Config.SroPath))
             //{
             //    string path = Metadata.Config.SroPath;

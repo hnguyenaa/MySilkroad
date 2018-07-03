@@ -88,6 +88,7 @@
             this.timerClientPing = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
+            this.chkExternLoader = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -150,7 +151,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(742, 320);
+            this.tabPage2.Size = new System.Drawing.Size(728, 320);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Login";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -360,7 +361,7 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(742, 320);
+            this.tabPage3.Size = new System.Drawing.Size(728, 320);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Skill";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -726,6 +727,7 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.chkExternLoader);
             this.panel3.Controls.Add(this.btnStart);
             this.panel3.Controls.Add(this.button1);
             this.panel3.Controls.Add(this.chkClientless);
@@ -736,6 +738,16 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(736, 134);
             this.panel3.TabIndex = 59;
+            // 
+            // chkExternLoader
+            // 
+            this.chkExternLoader.AutoSize = true;
+            this.chkExternLoader.Location = new System.Drawing.Point(17, 73);
+            this.chkExternLoader.Name = "chkExternLoader";
+            this.chkExternLoader.Size = new System.Drawing.Size(88, 17);
+            this.chkExternLoader.TabIndex = 59;
+            this.chkExternLoader.Text = "Extern loader";
+            this.chkExternLoader.UseVisualStyleBackColor = true;
             // 
             // frmMain
             // 
@@ -837,6 +849,7 @@
         private System.Windows.Forms.RadioButton rdoIncreaseNone;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
+        public System.Windows.Forms.CheckBox chkExternLoader;
     }
 }
 

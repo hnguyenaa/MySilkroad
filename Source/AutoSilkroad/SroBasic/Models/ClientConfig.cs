@@ -14,5 +14,8 @@ namespace SroBasic.Models
         public uint Version { get; set; }
         public int Port { get; set; }
         public IPAddress IP { get; set; }
+
+        public IPEndPoint RedirectGatewayServer { get; set; }
+        public IPEndPoint RedirectAgentSetver { get; set; }
     }
 }

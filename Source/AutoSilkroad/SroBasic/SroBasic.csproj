@@ -57,6 +57,7 @@
     <Compile Include="Controllers\Bot\BotManager.cs" />
     <Compile Include="Controllers\Bot\BotMedia.cs" />
     <Compile Include="Controllers\Bot\BotOutput.cs" />
+    <Compile Include="Controllers\ClientProcess.cs" />
     <Compile Include="Controllers\DebugPacket.cs" />
     <Compile Include="Controllers\GeneratePacket.cs" />
     <Compile Include="Controllers\ParsePacket\InGameRelated\AbilitiesAndFighting\_0xB070_SkillAdd.cs" />

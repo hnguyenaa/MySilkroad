@@ -130,6 +130,8 @@ namespace SroBasic.Metadata
                     clientInfo.Version = Convert.ToUInt32(vesion);
                     clientInfo.IP = System.Net.IPAddress.Parse(ip);
                     clientInfo.Port = Convert.ToInt32(port);
+                    clientInfo.RedirectGatewayServer = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20001);
+                    clientInfo.RedirectAgentSetver = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20002);
                 }
             }
 

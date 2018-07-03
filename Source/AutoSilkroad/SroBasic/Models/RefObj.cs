@@ -73,7 +73,7 @@ namespace Models
         ITEM_ETC_QUEST = 0x09
     }
 
-    public interface RefObj<T2, T3> 
+    public class RefObj<T2, T3> 
     {
         public uint ID { get; set; }
         public string CodeName { get; set; }
