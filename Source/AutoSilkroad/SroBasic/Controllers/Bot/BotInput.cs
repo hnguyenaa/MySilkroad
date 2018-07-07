@@ -188,17 +188,18 @@ namespace SroBasic.Controllers.Bot
         public static void RepeatBuffSkill(uint tempId)
         {
             if (_status != BotStatus.Start) return;
-            if (!timerWaitingCastedSkill.Enabled)
-            {
+            //if (!timerWaitingCastedSkill.Enabled)
+            //{
                 Packet packet = new Packet(0x7074);
                 var skill = Globals.Character.GetSkillTrainByTempId(tempId);
 
                 if (skill != null && skill.UsingType != 2)
                 {
+                    Views.BindingFrom.WriteLine("RepeatBuffSkill :" + skill.Name);
                     packet = GeneratePacket.BuffSkill(skill.ID);
                     ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
                 }
-            }
+            //}
         }
 
 
@@ -302,7 +303,6 @@ namespace SroBasic.Controllers.Bot
             if (_status != BotStatus.Start) return;
 
             var mob = GetNearMobForAttack();
-
             if (mob != null && mob.UniqueID > 0)
             {
                 RequestSelectMob(mob.UniqueID);
@@ -337,12 +337,12 @@ namespace SroBasic.Controllers.Bot
         {
             if (_status != BotStatus.Start) return;
 
-            if (Metadata.Config.IncreaseStatPointType == IncreaseStatPointType.FullStrength)
+            if (Configs.IncreaseStatPointType == IncreaseStatPointType.FullStrength)
             {
                 Packet packet = GeneratePacket.IncreaseStrength();
                 ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
             }
-            else if (Metadata.Config.IncreaseStatPointType == IncreaseStatPointType.FullIntellect)
+            else if (Configs.IncreaseStatPointType == IncreaseStatPointType.FullIntellect)
             {
                 Packet packet = GeneratePacket.IncreaseIntellect();
                 ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
@@ -353,7 +353,7 @@ namespace SroBasic.Controllers.Bot
         {
             if (_status != BotStatus.Start) return;
 
-            if (Globals.Character.Zerk == 5 && Metadata.Config.IsAutoZerk)
+            if (Globals.Character.Zerk == 5 && Configs.IsAutoZerk)
             {
                 Packet packet = GeneratePacket.Berserk();
                 ThreadProxy.Proxy.SendPacketToAgentRemote(packet);

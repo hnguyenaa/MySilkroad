@@ -61,8 +61,8 @@ namespace SroBasic.Controllers.ParsePacket
                     byte value = packet.ReadUInt8(); //immer 00 ?
                     if (value == 0x00)
                     {
-                        Views.BindingFrom.WriteLine("[0xB074][Object Action][Obstactle] value = " + value + " | action = " + flag + " | " + resultType);
-                        Bot.BotInput.DoWord_MobBehindObstacle();
+                        //Views.BindingFrom.WriteLine("[0xB074][Object Action][Obstactle] value = " + value + " | action = " + flag + " | " + resultType);
+                        //Bot.BotInput.DoWord_MobBehindObstacle();
                     }
                     //else
                     //{

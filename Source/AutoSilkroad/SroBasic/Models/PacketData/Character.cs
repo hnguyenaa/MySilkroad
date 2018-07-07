@@ -118,21 +118,34 @@ namespace SroBasic.Models
         //    }
         //}
 
-        public Skilltrain StartUsingSkillTrain(uint skillId, uint tempSkillId)
+        public Skilltrain UsingSkill(uint skillId, uint tempId)
         {
-            foreach (var item in SkillTains)
+            Skilltrain result = new Skilltrain();
+            for (int i = 0; i < SkillTains.Count; i++)
             {
-                if (item.ID == skillId)
+                if (SkillTains[i].ID == skillId)
                 {
-                    Views.BindingFrom.WriteLine("[Character]::[StartUsingSkillTrain] :" + item.ID + "|" + item.Name);
-                    item.TemporaryID = tempSkillId;
-                    item.TimeUsing = DateTime.Now;
+                    SkillTains[i].TemporaryID = tempId;
+                    SkillTains[i].TimeUsing = DateTime.Now;
 
-                    return item;
+                    result = SkillTains[i];
+                    Views.BindingFrom.WriteLine("[Character]::[StartUsingSkillTrain] :" + SkillTains[i].ID + "|" + SkillTains[i].Name + "|" + tempId);
+                    break;
                 }
             }
+                //foreach (var item in SkillTains)
+                //{
+                //    if (item.ID == skillId)
+                //    {
+                //        Views.BindingFrom.WriteLine("[Character]::[StartUsingSkillTrain] :" + item.ID + "|" + item.Name + "|" + tempSkillId);
+                //        item.TemporaryID = tempSkillId;
+                //        item.TimeUsing = DateTime.Now;
 
-            return new Skilltrain();
+                //        return item;
+                //    }
+                //}
+
+            return result;
         }
 
         public Skilltrain GetNextSkillTrain()
@@ -163,6 +176,18 @@ namespace SroBasic.Models
             }
 
             return skill;
+        }
+
+        internal void RefreshBuffSkill(uint tempId)
+        {
+            for (int i = 0; i < SkillTains.Count; i++)
+            {
+                if (SkillTains[i].TemporaryID == tempId)
+                {
+                    SkillTains[i].TemporaryID = 0;
+                    break;
+                }
+            }
         }
     }
 }

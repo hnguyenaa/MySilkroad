@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SroBasic.Metadata;
+using SroBasic.Models;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -73,8 +75,8 @@ namespace SroBasic.Controllers
     public static class ClientProcess
     {
         public static Process _Process { get; set; }
-        private static PatchConfig _PatchConfig { get; set; }
-        private static ClientConfig _ClientConfig { get; set; }
+        private static PatchConfig _patchConfig { get; set; }
+        private static ClientConfig _clientConfig { get; set; }
 
         #region Addresses
         static uint BaseAddress = 0x400000;
@@ -136,73 +138,23 @@ namespace SroBasic.Controllers
 
         #endregion
 
-        class PatchConfig
-        {
-            public bool MultiClient { get; set; }
-            public bool NudePatch { get; set; }
-            public bool ZoomHack { get; set; }
-            public bool SwearFilter { get; set; }
-            public bool ServerStatus { get; set; }
-            public bool RedirectIP { get; set; }
-            public bool NoGameGuard { get; set; }
-            public bool EnglishPatch { get; set; }
-            public bool PatchSeed { get; set; }
-            
-            public IPEndPoint RedirectGatewayServer { get; set; }
-            public IPEndPoint RedirectAgentServer { get; set; }
-        }
-
-        class ClientConfig
-        {
-            public string FilePath { get; set; }
-            public string SroType { get; set; }
-            public uint Locale { get; set; }
-            public uint Version { get; set; }
-            public string IP { get; set; }
-            public string Port { get; set; }
-            public IPEndPoint GatewayServer { get; set; }
-        }
-
         static ClientProcess()
         {
-            _PatchConfig = new PatchConfig
-            {
-                MultiClient = true,
-                NudePatch = false,
-                ZoomHack = false,
-                SwearFilter = false,
-                ServerStatus = false,
-                RedirectIP = true,
-                NoGameGuard = false,
-                EnglishPatch = false,
-                PatchSeed = false,
-                RedirectGatewayServer = SroBasic.Metadata.MediaData.ClientInfo.RedirectGatewayServer,
-                RedirectAgentServer = SroBasic.Metadata.MediaData.ClientInfo.RedirectAgentSetver
-            };
-
-            _ClientConfig = new ClientConfig
-            {
-                FilePath = SroBasic.Metadata.Config.SroPath,
-                SroType = SroBasic.Metadata.MediaData.ClientInfo.SroType,
-                Version = SroBasic.Metadata.MediaData.ClientInfo.Version,
-                GatewayServer = new IPEndPoint(SroBasic.Metadata.MediaData.ClientInfo.IP,SroBasic.Metadata.MediaData.ClientInfo.Port)
-            };
+            _patchConfig = Configs.PatchConfig;
+            _clientConfig = Configs.ClientConfig;
         }
 
         public static void StartProcess()
         {
-            //StartProcess(process_Info.filePath, process_Info.multiClient, process_Info.nudePatch, process_Info.zoomHack,
-            //    process_Info.swearFilter, process_Info.serverStatus, process_Info.redirectIP, process_Info.noGameGuard, process_Info.englishPatch);
-
-            StartProcess(_ClientConfig.FilePath,
-                _PatchConfig.MultiClient,
-                _PatchConfig.NudePatch,
-                _PatchConfig.ZoomHack,
-                _PatchConfig.SwearFilter,
-                _PatchConfig.ServerStatus,
-                _PatchConfig.RedirectIP,
-                _PatchConfig.NoGameGuard,
-                _PatchConfig.EnglishPatch);
+            StartProcess(_clientConfig.ClientPath,
+                _patchConfig.MultiClient,
+                _patchConfig.NudePatch,
+                _patchConfig.ZoomHack,
+                _patchConfig.SwearFilter,
+                _patchConfig.ServerStatus,
+                _patchConfig.RedirectIP,
+                _patchConfig.NoGameGuard,
+                _patchConfig.EnglishPatch);
         }
         private static void StartProcess(string filePath, bool multiClient, bool nudePatch, bool zoomHack,
             bool swearFilter, bool serverStatus, bool redirectIP, bool noGameGuard, bool englishPatch)
@@ -280,14 +232,13 @@ namespace SroBasic.Controllers
         {
             //StartLoader(process_Info.filePath, Globals.SilkProcess, clientFile_Info.sro_type, clientFile_Info.locale, process_Info.redirectIP, process_Info.multiClient);
             StartLoader(
-                _ClientConfig.FilePath,
-                _Process,
-                _ClientConfig.SroType,
-                (int)_ClientConfig.Locale,
-                _PatchConfig.RedirectIP,
-                _PatchConfig.MultiClient);
+                _clientConfig.ClientPath,
+                _clientConfig.SroType,
+                (int)_clientConfig.Locale,
+                _patchConfig.RedirectIP,
+                _patchConfig.MultiClient);
         }
-        private static void StartLoader(string clietFilePath, Process clientProcess, string sroType, int locale, bool redirectIP = true, bool multiClient = true)
+        private static void StartLoader(string clietFilePath, string sroType, int locale, bool redirectIP = true, bool multiClient = true)
         {
             if (File.Exists(clietFilePath))
             {
@@ -297,23 +248,23 @@ namespace SroBasic.Controllers
                     Kernel32.CreateMutex(IntPtr.Zero, false, "Ready");
 
 
-                    clientProcess = new Process();
-                    clientProcess.StartInfo.FileName = clietFilePath;
-                    clientProcess.StartInfo.Arguments = "0/" + locale + " 0 0";// u can open edxsilkroadloader it will tell u :P //
-                    clientProcess.Start();
+                    _Process = new Process();
+                    _Process.StartInfo.FileName = clietFilePath;
+                    _Process.StartInfo.Arguments = "0/" + locale + " 0 0";// u can open edxsilkroadloader it will tell u :P //
+                    _Process.Start();
 
 
-                    IntPtr SroProcessHandle = Kernel32.OpenProcess((uint)(0x000F0000L | 0x00100000L | 0xFFF), 0, clientProcess.Id);
+                    IntPtr sroProcessHandle = Kernel32.OpenProcess((uint)(0x000F0000L | 0x00100000L | 0xFFF), 0, _Process.Id);
 
-                    QuickPatches(SroProcessHandle);
+                    QuickPatches(sroProcessHandle);
 
                     if (redirectIP)
                     {
-                        RedirectIP(SroProcessHandle);
+                        RedirectIP(sroProcessHandle, (uint)_patchConfig.RedirectGatewayServer.Port, _patchConfig.RedirectGatewayServer.Address.ToString());
                     }
                     if (multiClient)
                     {
-                        MultiClient(SroProcessHandle);
+                        MultiClient(sroProcessHandle);
                     }
                     //StartingTextMSG(SroProcessHandle, StartingMessageText, HexColorArray);
                 }
@@ -323,10 +274,10 @@ namespace SroBasic.Controllers
                     Kernel32.CreateMutex(IntPtr.Zero, false, "Ready");
 
 
-                    clientProcess = new Process();
-                    clientProcess.StartInfo.FileName = clietFilePath;
-                    clientProcess.StartInfo.Arguments = "0/" + locale + " 0 0";// u can open edxsilkroadloader it will tell u :P //
-                    clientProcess.Start();
+                    _Process = new Process();
+                    _Process.StartInfo.FileName = clietFilePath;
+                    _Process.StartInfo.Arguments = "0/" + locale + " 0 0";// u can open edxsilkroadloader it will tell u :P //
+                    _Process.Start();
                 }
             }
             else
@@ -336,94 +287,89 @@ namespace SroBasic.Controllers
         }
 
 
-        private static void QuickPatches(IntPtr SroProcessHandle)
+        private static void QuickPatches(IntPtr sroProcessHandle)
         {
-            //Quickpatches(SroProcessHandle, process_Info.noGameGuard, process_Info.serverStatus,
-            //process_Info.nudePatch, process_Info.swearFilter, process_Info.zoomHack,
-            //process_Info.englishPatch, process_Info.patchSeed);
-            Quickpatches(SroProcessHandle,
-                _PatchConfig.NoGameGuard,
-                _PatchConfig.ServerStatus,
-                _PatchConfig.NudePatch,
-                _PatchConfig.SwearFilter,
-                _PatchConfig.ZoomHack,
-                _PatchConfig.EnglishPatch,
-                _PatchConfig.PatchSeed);
+            Quickpatches(sroProcessHandle,
+                _patchConfig.NoGameGuard,
+                _patchConfig.ServerStatus,
+                _patchConfig.NudePatch,
+                _patchConfig.SwearFilter,
+                _patchConfig.ZoomHack,
+                _patchConfig.EnglishPatch,
+                _patchConfig.PatchSeed);
             
         }
-        private static void Quickpatches(IntPtr SroProcessHandle, bool noGameGuard, bool serverStatus,
+        private static void Quickpatches(IntPtr sroProcessHandle, bool noGameGuard, bool serverStatus,
             bool nudePatch, bool swearFilter, bool zoomHack,
             bool englishPatch, bool patchSeed)
         {
             //Already Program Exe
-            Kernel32.WriteProcessMemory(SroProcessHandle, AlreadyProgramExe, JMP, JMP.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, AlreadyProgramExe, JMP, JMP.Length, ByteArray);
 
             //Multiclient Error MessageBox
-            Kernel32.WriteProcessMemory(SroProcessHandle, MultiClientError, JMP, JMP.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, MultiClientError, JMP, JMP.Length, ByteArray);
 
             if (noGameGuard)//doesnt work
             {
                 //No GameGuard
-                Kernel32.WriteProcessMemory(SroProcessHandle, NoGameGuard, RETN, RETN.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, NoGameGuard, RETN, RETN.Length, ByteArray);
             }
             if (serverStatus)
             {
                 //Serverstatus FULL
-                Kernel32.WriteProcessMemory(SroProcessHandle, ServerStatusFULL, NOPNOP, NOPNOP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, ServerStatusFULL, NOPNOP, NOPNOP.Length, ByteArray);
             }
             if (nudePatch)
             {
                 //Nude Patch
-                Kernel32.WriteProcessMemory(SroProcessHandle, NudePatch, NOPNOP, NOPNOP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, NudePatch, NOPNOP, NOPNOP.Length, ByteArray);
             }
             if (swearFilter)
             {
                 //Swear Filter
-                Kernel32.WriteProcessMemory(SroProcessHandle, SwearFilter1, JMP, JMP.Length, ByteArray);
-                Kernel32.WriteProcessMemory(SroProcessHandle, SwearFilter2, JMP, JMP.Length, ByteArray);
-                Kernel32.WriteProcessMemory(SroProcessHandle, SwearFilter3, JMP, JMP.Length, ByteArray);
-                Kernel32.WriteProcessMemory(SroProcessHandle, SwearFilter4, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, SwearFilter1, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, SwearFilter2, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, SwearFilter3, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, SwearFilter4, JMP, JMP.Length, ByteArray);
             }
             if (zoomHack)
             {
                 //Zoomhack
-                Kernel32.WriteProcessMemory(SroProcessHandle, Zoomhack, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, Zoomhack, JMP, JMP.Length, ByteArray);
             }
             if (englishPatch)//doesnt works
             {
                 //English Patch
-                Kernel32.WriteProcessMemory(SroProcessHandle, EnglishPatch, NOPNOP, NOPNOP.Length, ByteArray);
-                Kernel32.WriteProcessMemory(SroProcessHandle, RussianHack, JMP, JMP.Length, ByteArray);
-                Kernel32.WriteProcessMemory(SroProcessHandle, TextDataName, LanguageTab, LanguageTab.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, EnglishPatch, NOPNOP, NOPNOP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, RussianHack, JMP, JMP.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, TextDataName, LanguageTab, LanguageTab.Length, ByteArray);
             }
             if (patchSeed)
             {
                 //Seed Patch
-                Kernel32.WriteProcessMemory(SroProcessHandle, SeedPatchAdress, SeedPatch, SeedPatch.Length, ByteArray);
+                Kernel32.WriteProcessMemory(sroProcessHandle, SeedPatchAdress, SeedPatch, SeedPatch.Length, ByteArray);
             }
         }
 
-        private static void RedirectIP(IntPtr SroProcessHandle)
+
+        private static void RedirectIP(IntPtr sroProcessHandle, uint port, string ip)
         {
-            RedirectIP(SroProcessHandle, _PatchConfig.RedirectGatewayServer.Port.ToString(), _PatchConfig.RedirectGatewayServer.Address.ToString());
-        }
-        private static void RedirectIP(IntPtr SroProcessHandle, string port, string ip)
-        {
-            uint RedirectIPCodeCave = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, 27, 0x1000, 0x4);
-            uint SockAddrStruct = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, 8, 0x1000, 0x4);
+            uint RedirectIPCodeCave = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, 27, 0x1000, 0x4);
+            uint SockAddrStruct = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, 8, 0x1000, 0x4);
             uint WS2Connect = Kernel32.GetProcAddress(Kernel32.GetModuleHandle("WS2_32.dll"), "connect");
 
             byte[] WS2Array = BitConverter.GetBytes(WS2Connect - RedirectIPCodeCave - 26);
             byte[] SockAddr = BitConverter.GetBytes(SockAddrStruct);
             byte[] CallRedirectIp = BitConverter.GetBytes(RedirectIPCodeCave - RedirectIPAddress - 5);
 
-            byte[] Port = BitConverter.GetBytes(Convert.ToUInt32(port));
+            byte[] Port = BitConverter.GetBytes(port);
             string[] sIP = ip.Split('.');
             byte[] IP1 = BitConverter.GetBytes(Convert.ToUInt16(sIP[0]));
             byte[] IP2 = BitConverter.GetBytes(Convert.ToUInt16(sIP[1]));
             byte[] IP3 = BitConverter.GetBytes(Convert.ToUInt16(sIP[2]));
             byte[] IP4 = BitConverter.GetBytes(Convert.ToUInt16(sIP[3]));
 
+            byte[] addressBytes = _patchConfig.RedirectGatewayServer.Address.GetAddressBytes();
 
             byte[] Connection = { 0x02, 0x00, Port[1], Port[0], IP1[0], IP2[0], IP3[0], IP4[0] };
             byte[] CallAddress = { 0xE8, CallRedirectIp[0], CallRedirectIp[1], CallRedirectIp[2], CallRedirectIp[3] };
@@ -440,14 +386,14 @@ namespace SroBasic.Controllers
                                           0xC3 //RETN
                                       };
 
-            Kernel32.WriteProcessMemory(SroProcessHandle, RedirectIPCodeCave, RedirectCode, RedirectCode.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, SockAddrStruct, Connection, Connection.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, RedirectIPAddress, CallAddress, CallAddress.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, RedirectIPCodeCave, RedirectCode, RedirectCode.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, SockAddrStruct, Connection, Connection.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, RedirectIPAddress, CallAddress, CallAddress.Length, ByteArray);
         }
-        private static void MultiClient(IntPtr SroProcessHandle)
+        private static void MultiClient(IntPtr sroProcessHandle)
         {
-            uint MultiClientCodeCave = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, 45, 0x1000, 0x4);
-            uint MACCodeCave = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, 4, 0x1000, 0x4);
+            uint MultiClientCodeCave = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, 45, 0x1000, 0x4);
+            uint MACCodeCave = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, 4, 0x1000, 0x4);
             uint GTC = Kernel32.GetProcAddress(Kernel32.GetModuleHandle("kernel32.dll"), "GetTickCount");
 
             byte[] CallBack = BitConverter.GetBytes(MultiClientCodeCave + 41);
@@ -472,8 +418,8 @@ namespace SroBasic.Controllers
                                          0xC3 //RETN
                                        };
 
-            Kernel32.WriteProcessMemory(SroProcessHandle, MultiClientCodeCave, MultiClientCode, MultiClientCode.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, MultiClientAddress, MultiClientCodeArray, MultiClientCodeArray.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, MultiClientCodeCave, MultiClientCode, MultiClientCode.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, MultiClientAddress, MultiClientCodeArray, MultiClientCodeArray.Length, ByteArray);
         }
 
         private static void StartingTextMSG(IntPtr SroProcessHandle, string StartingText, byte[] HexColor)
@@ -481,23 +427,23 @@ namespace SroBasic.Controllers
             string sChangeVersionString = "vieSroBot 1.0\nSro type: vSro";//Globals.botTitle + "\nSro type: " + Globals.sro_type;
             StartingTextMSG(SroProcessHandle, StartingText, sChangeVersionString, HexColor);
         }
-        private static void StartingTextMSG(IntPtr SroProcessHandle, string StartingText, string sChangeVersionString, byte[] HexColor)
+        private static void StartingTextMSG(IntPtr sroProcessHandle, string StartingText, string sChangeVersionString, byte[] HexColor)
         {
             string ChangeVersionString = sChangeVersionString;
-            uint StartingMSGStringCodeCave = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, StartingText.Length, 0x1000, 0x4);
-            uint ChangeVersionStringCodeCave = Kernel32.VirtualAllocEx(SroProcessHandle, IntPtr.Zero, StartingText.Length, 0x1000, 0x4);
+            uint StartingMSGStringCodeCave = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, StartingText.Length, 0x1000, 0x4);
+            uint ChangeVersionStringCodeCave = Kernel32.VirtualAllocEx(sroProcessHandle, IntPtr.Zero, StartingText.Length, 0x1000, 0x4);
             byte[] StartingMSGByteArray = Encoding.Unicode.GetBytes(StartingText);
             byte[] ChangeVersionByteArray = Encoding.Unicode.GetBytes(ChangeVersionString);
             byte[] CallStartingMSG = BitConverter.GetBytes(StartingMSGStringCodeCave);
             byte[] CallChangeVersion = BitConverter.GetBytes(ChangeVersionStringCodeCave);
             byte[] StartingMSGCodeArray = { 0xB8, CallStartingMSG[0], CallStartingMSG[1], CallStartingMSG[2], CallStartingMSG[3] };
             byte[] ChangeVersionCodeArray = { 0x68, CallChangeVersion[0], CallChangeVersion[1], CallChangeVersion[2], CallChangeVersion[3] };
-            Kernel32.WriteProcessMemory(SroProcessHandle, ChangeVersionStringCodeCave, ChangeVersionByteArray, ChangeVersionByteArray.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, ChangeVersion, ChangeVersionCodeArray, ChangeVersionCodeArray.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, ChangeVersion - 59, HexColor, HexColor.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, StartingMSGStringCodeCave, StartingMSGByteArray, StartingMSGByteArray.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, StartingMSG, StartingMSGCodeArray, StartingMSGCodeArray.Length, ByteArray);
-            Kernel32.WriteProcessMemory(SroProcessHandle, StartingMSG + 9, HexColor, HexColor.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, ChangeVersionStringCodeCave, ChangeVersionByteArray, ChangeVersionByteArray.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, ChangeVersion, ChangeVersionCodeArray, ChangeVersionCodeArray.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, ChangeVersion - 59, HexColor, HexColor.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, StartingMSGStringCodeCave, StartingMSGByteArray, StartingMSGByteArray.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, StartingMSG, StartingMSGCodeArray, StartingMSGCodeArray.Length, ByteArray);
+            Kernel32.WriteProcessMemory(sroProcessHandle, StartingMSG + 9, HexColor, HexColor.Length, ByteArray);
         }
 
         private static uint FindPattern(byte[] Pattern, byte[] FileByteArray, uint Result)

@@ -1,5 +1,4 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using SroBasic.Models.PacketData;
 using System;
 using System.Collections.Generic;
@@ -11,11 +10,10 @@ using System.Threading.Tasks;
 namespace SroBasic.Controllers.ParsePacket
 {
     /// <summary>
-    /// [0xA102] Login Reply
+    /// [0xA102][SERVER_GATEWAY_LOGIN_RESPONSE] Login Reply
     /// </summary>
     public static class _0xA102
     {
-
         public static LoginReply Parse(Packet packet)
         {
             LoginReply loginReply = new LoginReply();

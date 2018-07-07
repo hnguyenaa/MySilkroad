@@ -1,5 +1,4 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +21,8 @@ namespace SroBasic.Controllers.ParsePacket
         {
             if (string.IsNullOrEmpty(data)) return;
 
-            byte local = Metadata.MediaData.ClientInfo.Locale;
-            uint version = Metadata.MediaData.ClientInfo.Version;
+            byte local = Metadata.Configs.ClientConfig.Locale;
+            uint version = Metadata.Configs.ClientConfig.Version;
 
             if(data == "GatewayServer")
             {
@@ -37,7 +36,9 @@ namespace SroBasic.Controllers.ParsePacket
             {
                 if (isClientless)
                 {
-                    var packet = GeneratePacket.LoginRequest(local, Globals.loginUser, Globals.loginPass, Metadata.Globals.session);
+                    var user = Metadata.Configs.LoginConfig.Username;
+                    var pass = Metadata.Configs.LoginConfig.Password;
+                    var packet = GeneratePacket.LoginRequest(local, user, pass, Metadata.Globals.session);
                     ThreadProxy.ProxyClientless.SendPacketToAgentRemote(packet); // difference: this seds the packts that came from client to the server(remote)
                 }
             }

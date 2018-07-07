@@ -38,13 +38,37 @@ namespace SroBasic.Controllers.ParsePacket
         {
             if (data.BuffSkillID > 0)
             {
-                Globals.Character.StartUsingSkillTrain(data.BuffSkillID, data.TempSkillID);
+                Globals.Character.UsingSkill(data.BuffSkillID, data.TempSkillID);
             }
         }
         public static void DoWork(Packet packet)
         {
-            var data = Parse(packet);
-            Share(data);
+            if (Metadata.Globals.IsDebug)
+            {
+                ParseCompact(packet);
+            }
+            else
+            {
+                //var data = Parse(packet);
+                //Share(data);
+                ParseCompact(packet);
+            }
+            
+            
         }
+
+        private static void ParseCompact(Packet packet)
+        {
+            uint casterWorldId = packet.ReadUInt32();
+            if (casterWorldId == Globals.Character.UniqueID)
+            {
+                uint skillTypeId = packet.ReadUInt32();
+                uint tempId = packet.ReadUInt32();
+
+                Views.BindingFrom.WriteLine("[0xB0BD] id, temp: " + skillTypeId + ", " + tempId);
+                Globals.Character.UsingSkill(skillTypeId, tempId);
+            }
+        }
+        
     }
 }

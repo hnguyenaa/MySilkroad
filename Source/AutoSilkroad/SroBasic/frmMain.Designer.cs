@@ -89,6 +89,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.chkExternLoader = new System.Windows.Forms.CheckBox();
+            this.chkDebugPacket = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -727,6 +728,7 @@
             // panel3
             // 
             this.panel3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.panel3.Controls.Add(this.chkDebugPacket);
             this.panel3.Controls.Add(this.chkExternLoader);
             this.panel3.Controls.Add(this.btnStart);
             this.panel3.Controls.Add(this.button1);
@@ -748,6 +750,17 @@
             this.chkExternLoader.TabIndex = 59;
             this.chkExternLoader.Text = "Extern loader";
             this.chkExternLoader.UseVisualStyleBackColor = true;
+            // 
+            // chkDebugPacket
+            // 
+            this.chkDebugPacket.AutoSize = true;
+            this.chkDebugPacket.Location = new System.Drawing.Point(17, 93);
+            this.chkDebugPacket.Name = "chkDebugPacket";
+            this.chkDebugPacket.Size = new System.Drawing.Size(94, 17);
+            this.chkDebugPacket.TabIndex = 60;
+            this.chkDebugPacket.Text = "Debug packet";
+            this.chkDebugPacket.UseVisualStyleBackColor = true;
+            this.chkDebugPacket.CheckedChanged += new System.EventHandler(this.chkDebugPacket_CheckedChanged);
             // 
             // frmMain
             // 
@@ -850,6 +863,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         public System.Windows.Forms.CheckBox chkExternLoader;
+        public System.Windows.Forms.CheckBox chkDebugPacket;
     }
 }
 

@@ -35,7 +35,7 @@ namespace SroBasic.Controllers.ParsePacket
             byte isAccess = packet.ReadUInt8();
             if (isAccess == 0x01)
             {
-                var code = packet.ReadUInt16();// code = 0x0030|0x0230
+                var code = packet.ReadUInt16();// code = 0x3002:attack ; 0x3000:buff
                 var skill_id = packet.ReadUInt32();
                 var attacker_id = packet.ReadUInt32(); //if attacker_id = Character.UnquiID => character attack else mob attack
                 var temp_skill_id = packet.ReadUInt32();//unk = 0xB071.temp
@@ -112,7 +112,7 @@ namespace SroBasic.Controllers.ParsePacket
         {
             if (Globals.Character.UniqueID == data.Attacker_ID)
             {
-                var skill = Globals.Character.StartUsingSkillTrain(data.Skill_ID, data.Temp_Skill_ID);
+                var skill = Globals.Character.UsingSkill(data.Skill_ID, data.Temp_Skill_ID);
                 Bot.BotInput.StartUsingSkillTrain(skill);
 
                 //if (data.Type == 0x00)
@@ -136,8 +136,110 @@ namespace SroBasic.Controllers.ParsePacket
         
         public static void DoWork(Packet packet)
         {
-            var data = Parse(packet);
-            Share(data);
+            if (Globals.IsDebug)
+            {
+                ParseDebug(packet);
+                var data = Parse(packet);
+                Share(data);
+            }
+            else
+            {
+                ParseCompact(packet);
+            }
+            //var data = Parse(packet);
+            //Share(data);
+        }
+
+        private static void ParseDebug(Packet packet)
+        {
+            #region struct
+            // 0xB070 Server_WorldObject_Cast_Start 
+            //1 byte isSuccess 
+            //if (isSuccess == 1 )
+            //{
+            //    1 byte unk1 code = 0x3002:attack ; 0x3000:buff
+            //    1 byte unk2  
+            //    4 byte skillTypId 
+            //    4 byte casterWorldId 
+            //    4 byte unk3
+            //    4 byte targetWorldId
+            //    1 byte instantResponse
+
+            //    if (instantResponse == 1)
+            //    {
+            //        ParseDmg()
+            //    }
+            //    else 
+            //    {
+            //        1 byte hasDmg ?? --> 1 --> yes ?? 
+            //    }
+            //}
+            //else 
+            //{
+            //    2 byte ErrorCode
+            //}
+            #endregion
+
+            byte statusCode = packet.ReadUInt8();
+            var status = (Status)statusCode; 
+            if (status == Status.Success)
+            {
+                ushort castTypecode = packet.ReadUInt16();
+                var castType = (CastType)castTypecode;
+                if (castType == CastType.Attack)
+                {
+                    uint skill_id = packet.ReadUInt32();
+                    uint caster_world_id = packet.ReadUInt32();
+                    if (caster_world_id == Metadata.Globals.Character.UniqueID)
+                    {
+                        uint temp_skill_id = packet.ReadUInt32();
+                        uint target_world_id = packet.ReadUInt32();
+                        byte instant_response = packet.ReadUInt8();
+
+                        var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
+                        Bot.BotInput.StartUsingSkillTrain(skill);
+                    }
+                }
+            }
+            else
+            {
+
+            }
+        }
+
+        enum CastType
+        {
+            Attack = 0x3002,
+            Buff = 0x3000
+        }
+
+        enum Status : byte
+        {
+            Success = 0x01,
+            Fail = 0x02
+        }
+
+        private static void ParseCompact(Packet packet)
+        {
+            byte statusCode = packet.ReadUInt8();
+            if (statusCode == 0x01)
+            {
+                ushort opcode = packet.ReadUInt16();// code = 0x3002:attack ; 0x3000:buff
+                if (opcode == 0x3002) //attack
+                {
+                    uint skill_id = packet.ReadUInt32();
+                    uint caster_world_id = packet.ReadUInt32();
+                    if (caster_world_id == Metadata.Globals.Character.UniqueID)
+                    {
+                        uint temp_skill_id = packet.ReadUInt32();
+                        //uint target_world_id = packet.ReadUInt32();
+                        //byte instant_response = packet.ReadUInt8();
+
+                        var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
+                        Bot.BotInput.StartUsingSkillTrain(skill);
+                    }
+                }
+            }
         }
     }
 }

@@ -24,7 +24,7 @@ namespace SroBasic.Controllers
         }
 
         /// <summary>
-        /// [0x6102]
+        /// [0x6102] CLIENT_GATEWAY_LOGIN_REQUEST
         /// </summary>
         /// <param name="locale"></param>
         /// <param name="user"></param>
@@ -33,6 +33,17 @@ namespace SroBasic.Controllers
         /// <returns></returns>
         public static Packet LoginServer(byte locale, string user, string pass, uint serverID)
         {
+            #region Struct
+            //CLIENT_GATEWAY_LOGIN_REQUEST = 0x6102
+            //Encrypted
+            //1   byte    Content.ID
+            //2   ushort  Username.Length
+            //*   string  Username
+            //2   ushort  Password.Length
+            //*   string  Password
+            //2   ushort  Shard.ID
+            #endregion
+
             Packet packet = new Packet(0x6102, true);
             packet.WriteUInt8(locale);
             packet.WriteAscii(user);

@@ -1,7 +1,7 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using SroBasic.Controllers;
 using SroBasic.Controllers.ThreadProxy;
+using SroBasic.Metadata;
 using SroBasic.Models;
 using System;
 using System.Collections.Generic;
@@ -40,12 +40,12 @@ namespace SroBasic
             //    PrintLog(ex.Message);
             //}
 
-                if (Metadata.Config.IncreaseStatPointType == Metadata.IncreaseStatPointType.FullIntellect)
+                if (Configs.IncreaseStatPointType == IncreaseStatPointType.FullIntellect)
                     rdoIncreaseIntellect.Checked = true;
                 else
                     rdoIncreaseStrength.Checked = true;
 
-                chkIsAutoZerk.Checked = Metadata.Config.IsAutoZerk;
+                chkIsAutoZerk.Checked = Configs.IsAutoZerk;
 
                 //if (chkClientless.Checked)
                 //{
@@ -73,34 +73,34 @@ namespace SroBasic
         }
 
 
-        [DllImport("kernel32.dll")]
-        static extern IntPtr OpenProcess(uint dwDesiredAccess, int bInheritHandle, int dwProcessId);
-        [DllImport("kernel32.dll")]
-        static extern uint WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, uint lpNumberOfBytesWritten);
-        [DllImport("kernel32.dll")]
-        static extern uint VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, uint flAllocationType, uint flProtect);
-        [DllImport("kernel32.dll")]
-        static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
-        public static IntPtr Handle;
-        public static IntPtr SROHandle;
-        private Process Started;
+        //[DllImport("kernel32.dll")]
+        //static extern IntPtr OpenProcess(uint dwDesiredAccess, int bInheritHandle, int dwProcessId);
+        //[DllImport("kernel32.dll")]
+        //static extern uint WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, uint lpNumberOfBytesWritten);
+        //[DllImport("kernel32.dll")]
+        //static extern uint VirtualAllocEx(IntPtr hProcess, IntPtr lpAddress, int dwSize, uint flAllocationType, uint flProtect);
+        //[DllImport("kernel32.dll")]
+        //static extern IntPtr CreateMutex(IntPtr lpMutexAttributes, bool bInitialOwner, string lpName);
+        //public static IntPtr Handle;
+        //public static IntPtr SROHandle;
+        //private Process Started;
         private void btnStart_Click(object sender, EventArgs e)
         {
 
             if (chkClientless.Checked)
             {
-                var gatewayRemoteEP = new System.Net.IPEndPoint(Metadata.MediaData.ClientInfo.IP, Metadata.MediaData.ClientInfo.Port);
+                var gatewayRemoteEP = Configs.ClientConfig.GatewayServer;// new System.Net.IPEndPoint(Metadata.MediaData.ClientInfo.IP, Metadata.MediaData.ClientInfo.Port);
                 ProxyClientless.SetGatewayRemoteEndPoint(gatewayRemoteEP);
                 ProxyClientless.StartGateway();
                 timerClientPing.Enabled = true;
             }
             else
             {
-                var agentLocalEP = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20002);
+                var agentLocalEP = Configs.PatchConfig.RedirectAgentServer;// new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20002);
                 Proxy.SetAgentLocalEndPoint(agentLocalEP);
 
-                var gatewayLocalEP = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20001);
-                var gatewayRemoteEP = new System.Net.IPEndPoint(Metadata.MediaData.ClientInfo.IP, Metadata.MediaData.ClientInfo.Port);
+                var gatewayLocalEP = Configs.PatchConfig.RedirectGatewayServer; //new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20001);
+                var gatewayRemoteEP = Configs.ClientConfig.GatewayServer;// new System.Net.IPEndPoint(Metadata.MediaData.ClientInfo.IP, Metadata.MediaData.ClientInfo.Port);
                 Proxy.SetGatewayLocalEndPoint(gatewayLocalEP);
                 Proxy.SetGatewayRemoteEndPoint(gatewayRemoteEP);
                 Proxy.StartGateway();
@@ -108,58 +108,8 @@ namespace SroBasic
 
             if (!chkExternLoader.Checked)
                 ClientProcess.StartProcess();
-            //if (Metadata.Config.SroPath != "" && File.Exists(Metadata.Config.SroPath))
-            //{
-            //    string path = Metadata.Config.SroPath;
-            //    int gatewayLocalPort = 20001;
 
-            //    CreateMutex(IntPtr.Zero, false, "Silkroad Online Launcher");
-            //    CreateMutex(IntPtr.Zero, false, "Ready");
-            //    uint count = 0;
-            //    Process SilkProcess = new Process();
-            //    SilkProcess.StartInfo.FileName = path;
-            //    SilkProcess.StartInfo.Arguments = "0/22 0 0";
-            //    Started = Process.Start(SilkProcess.StartInfo);
-            //    Handle = OpenProcess((uint)(0x000F0000L | 0x00100000L | 0xFFF), 0, Started.Id);
-            //    uint ConnectionStack = VirtualAllocEx(Handle, IntPtr.Zero, 8, 0x1000, 0x4);
-            //    byte[] ConnectionStackArray = BitConverter.GetBytes(ConnectionStack);
-
-            //    if (gatewayLocalPort == 20001)
-            //    {
-            //        byte[] Connection = {
-            //                                0x02,0x00,
-            //                                0x4E, 0x21, // PORT (20001)
-            //                                0x7F,0x00,0x00,0x01 // IP (127.0.0.1)
-            //                            };
-            //        uint Codecave = VirtualAllocEx(Handle, IntPtr.Zero, 16, 0x1000, 0x4);
-            //        byte[] CodecaveArray = BitConverter.GetBytes(Codecave - 0x004B08A1 - 5);
-            //        byte[] CodeCaveFunc = {
-            //                                    0xBF,ConnectionStackArray[0],ConnectionStackArray[1],ConnectionStackArray[2],ConnectionStackArray[3],
-            //                                    0x8B,0x4E,0x04,
-            //                                    0x6A,0x10,
-            //                                    0x68,0xA6,0x08,0x4B,0x00,
-            //                                    0xC3
-            //                              };
-            //        byte[] JMPCodeCave = { 0xE9, CodecaveArray[0], CodecaveArray[1], CodecaveArray[2], CodecaveArray[3] };
-            //        WriteProcessMemory(Handle, ConnectionStack, Connection, Connection.Length, count);
-            //        WriteProcessMemory(Handle, Codecave, CodeCaveFunc, CodeCaveFunc.Length, count);
-            //        WriteProcessMemory(Handle, 0x004B08A1, JMPCodeCave, JMPCodeCave.Length, count);
-            //    }
-
-            //    Metadata.Config.Save();
-
-            //    btnStart.Enabled = false;
-            //}
-            //else
-            //{
-            //    OpenFileDialog dialog = new OpenFileDialog();
-            //    dialog.Filter = "sro_client.exe | *.exe";
-            //    dialog.ShowDialog();
-            //    if (File.Exists(dialog.FileName) && dialog.FileName.ToUpper().Contains("SRO_CLIENT.EXE"))
-            //    {
-            //        Metadata.Config.SroPath = dialog.FileName;
-            //    }
-            //}
+            btnStart.Enabled = false;
         }
 
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
@@ -169,7 +119,7 @@ namespace SroBasic
                 timerClientPing.Enabled = false;
                 ProxyClientless.StopGateway();
                 ProxyClientless.StopAgent();
-                Started.Kill();
+
             }
 
             
@@ -534,7 +484,10 @@ namespace SroBasic
         private void btnLoginServer_Click(object sender, EventArgs e)
         {
             uint serverId = Convert.ToUInt32(cboLoginServer.SelectedValue);
-            var p = GeneratePacket.LoginServer(Globals.clientInfo.Locale, Globals.loginUser, Globals.loginPass, serverId);
+            var locale = Configs.ClientConfig.Locale;
+            var user = Configs.LoginConfig.Username;
+            var pass = Configs.LoginConfig.Password;
+            var p = GeneratePacket.LoginServer(locale, user, pass, serverId);
 
             if(chkClientless.Checked)
                 ProxyClientless.SendPacketToGatewayRemote(p);
@@ -694,24 +647,29 @@ namespace SroBasic
         private void rdoIncreaseStrength_CheckedChanged(object sender, EventArgs e)
         {
             if (rdoIncreaseStrength.Checked)
-                Metadata.Config.IncreaseStatPointType = Metadata.IncreaseStatPointType.FullStrength;
+                Configs.IncreaseStatPointType = IncreaseStatPointType.FullStrength;
         }
 
         private void rdoIncreaseIntellect_CheckedChanged(object sender, EventArgs e)
         {
             if (rdoIncreaseIntellect.Checked)
-                Metadata.Config.IncreaseStatPointType = Metadata.IncreaseStatPointType.FullIntellect;
+                Configs.IncreaseStatPointType = IncreaseStatPointType.FullIntellect;
         }
 
         private void chkIsAutoZerk_CheckedChanged(object sender, EventArgs e)
         {
-            Metadata.Config.IsAutoZerk = chkIsAutoZerk.Checked;
+            Configs.IsAutoZerk = chkIsAutoZerk.Checked;
         }
 
         private void rdoIncreaseNone_CheckedChanged(object sender, EventArgs e)
         {
             if (rdoIncreaseIntellect.Checked)
-                Metadata.Config.IncreaseStatPointType = Metadata.IncreaseStatPointType.None;
+                Configs.IncreaseStatPointType = IncreaseStatPointType.None;
+        }
+
+        private void chkDebugPacket_CheckedChanged(object sender, EventArgs e)
+        {
+            Metadata.Globals.IsDebug = chkDebugPacket.Checked;
         }
 
 

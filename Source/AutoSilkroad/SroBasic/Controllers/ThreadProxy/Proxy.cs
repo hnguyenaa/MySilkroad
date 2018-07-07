@@ -1,5 +1,4 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using SroBasic.Controllers.ParsePacket;
 using System;
 using System.Collections.Generic;
@@ -85,7 +84,7 @@ namespace SroBasic.Controllers.ThreadProxy
             {
                 _gatewayThread = new Thread(GatewayThread);
                 _gatewayThread.Start();
-                _gatewayThread.IsBackground = true;
+                //_gatewayThread.IsBackground = true;
             }
             
         }
@@ -95,7 +94,7 @@ namespace SroBasic.Controllers.ThreadProxy
             {
                 _agentThread = new Thread(AgentThread);
                 _agentThread.Start();
-                _agentThread.IsBackground = true;
+                //_agentThread.IsBackground = true;
                 _agentThread.Join();
             }
 
@@ -213,7 +212,6 @@ namespace SroBasic.Controllers.ThreadProxy
                             {
                                 continue;
                             }
-
 
                             gw_local_security.Send(packet);
                         }
@@ -568,7 +566,7 @@ namespace SroBasic.Controllers.ThreadProxy
                 ag_local_server.Stop();
                 Views.BindingFrom.WriteLine(String.Format("[AG_LC] A connection has been made!" + Environment.NewLine));
 
-                _gatewayThread.Abort();
+                //_gatewayThread.Abort();
 
                 Views.BindingFrom.WriteLine(String.Format("[AG_RM] Connecting to {0}  (ag)" + Environment.NewLine, _agentRemoteEP));
                 ag_remote_client = new TcpClient();

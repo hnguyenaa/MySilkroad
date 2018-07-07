@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -45,7 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Component\Logic\Globals.cs" />
     <Compile Include="Component\SilkroadSecurityApi\Blowfish.cs" />
     <Compile Include="Component\SilkroadSecurityApi\Packet.cs" />
     <Compile Include="Component\SilkroadSecurityApi\PacketReader.cs" />
@@ -88,10 +88,11 @@
     <Compile Include="Controllers\ThreadProxy\PacketManagerClientless.cs" />
     <Compile Include="Controllers\ThreadProxy\PacketManager.cs" />
     <Compile Include="Controllers\ThreadProxy\Proxy.cs" />
-    <Compile Include="Metadata\Config.cs" />
+    <Compile Include="Metadata\Configs.cs" />
     <Compile Include="Metadata\Globals.cs" />
+    <Compile Include="Models\LoginConfig.cs" />
     <Compile Include="Models\Mob.cs" />
-    <Compile Include="Models\Character.cs" />
+    <Compile Include="Models\PacketData\Character.cs" />
     <Compile Include="Models\Coordinate.cs" />
     <Compile Include="Models\Inventory.cs" />
     <Compile Include="Models\Item.cs" />
@@ -121,6 +122,7 @@
     <Compile Include="Models\PacketData\Server.cs" />
     <Compile Include="Metadata\MediaData.cs" />
     <Compile Include="Models\PacketData\SingleSpawn.cs" />
+    <Compile Include="Models\PatchConfig.cs" />
     <Compile Include="Models\RefObj.cs" />
     <Compile Include="Models\Skill.cs" />
     <Compile Include="Models\Skilltrain.cs" />
@@ -151,6 +153,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Component\Logic\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

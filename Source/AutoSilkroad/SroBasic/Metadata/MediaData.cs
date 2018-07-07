@@ -15,7 +15,7 @@ namespace SroBasic.Metadata
         public static Dictionary<uint, Skill> Skills = new Dictionary<uint, Skill>();
         public static Dictionary<uint, Item> Items = new Dictionary<uint, Item>();
         public static Dictionary<uint, Mob> Mobs = new Dictionary<uint, Mob>();
-        public static ClientInfo ClientInfo = new ClientInfo();
+        //public static ClientInfo ClientInfo = new ClientInfo();
 
         static MediaData()
         {
@@ -23,7 +23,7 @@ namespace SroBasic.Metadata
             Skills = new Dictionary<uint, Skill>(LoadMediaSkills());
             Items = new Dictionary<uint, Item>(LoadMediaItems());
             Mobs = new Dictionary<uint, Mob>(LoadMediaMobs());
-            ClientInfo = LoadClientInfo();
+            //ClientInfo = LoadClientInfo();
             
 
         //    LocalGateway = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 20000);
@@ -91,52 +91,52 @@ namespace SroBasic.Metadata
 
         #endregion
         #region Helps
-        private static ClientInfo LoadClientInfo()
-        {
-            ClientInfo clientInfo = new ClientInfo();
+        //private static ClientInfo LoadClientInfo()
+        //{
+        //    ClientInfo clientInfo = new ClientInfo();
 
-            string path = Environment.CurrentDirectory + @"\data\config.txt";
+        //    string path = Environment.CurrentDirectory + @"\data\config.txt";
 
-            if (!File.Exists(path))
-            {
-                Views.BindingFrom.WriteLine("File \"config.txt\" not found");
-                return clientInfo;
-            }
+        //    if (!File.Exists(path))
+        //    {
+        //        Views.BindingFrom.WriteLine("File \"config.txt\" not found");
+        //        return clientInfo;
+        //    }
 
-            using (TextReader reader = File.OpenText(path))
-            {
-                string input = "";
-                while ((input = reader.ReadLine()) != null)
-                {
-                    if (input != "" && !input.StartsWith("//") && input.StartsWith("1"))
-                    {
-                        break;
-                    }
-                }
+        //    using (TextReader reader = File.OpenText(path))
+        //    {
+        //        string input = "";
+        //        while ((input = reader.ReadLine()) != null)
+        //        {
+        //            if (input != "" && !input.StartsWith("//") && input.StartsWith("1"))
+        //            {
+        //                break;
+        //            }
+        //        }
 
-                if (!string.IsNullOrEmpty(input))
-                {
-                    string[] split = input.Split(',');
-                    string type = split[1];
-                    string locale = split[2];
-                    string vesion = split[3];
-                    string ip = split[4];
-                    string port = split[5];
+        //        if (!string.IsNullOrEmpty(input))
+        //        {
+        //            string[] split = input.Split(',');
+        //            string type = split[1];
+        //            string locale = split[2];
+        //            string vesion = split[3];
+        //            string ip = split[4];
+        //            string port = split[5];
                     
                     
                         
-                    clientInfo.SroType = type;
-                    clientInfo.Locale = Convert.ToByte(locale);
-                    clientInfo.Version = Convert.ToUInt32(vesion);
-                    clientInfo.IP = System.Net.IPAddress.Parse(ip);
-                    clientInfo.Port = Convert.ToInt32(port);
-                    clientInfo.RedirectGatewayServer = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20001);
-                    clientInfo.RedirectAgentSetver = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20002);
-                }
-            }
+        //            clientInfo.SroType = type;
+        //            clientInfo.Locale = Convert.ToByte(locale);
+        //            clientInfo.Version = Convert.ToUInt32(vesion);
+        //            clientInfo.IP = System.Net.IPAddress.Parse(ip);
+        //            clientInfo.Port = Convert.ToInt32(port);
+        //            clientInfo.RedirectGatewayServer = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20001);
+        //            clientInfo.RedirectAgentSetver = new System.Net.IPEndPoint(System.Net.IPAddress.Parse("127.0.0.1"), 20002);
+        //        }
+        //    }
 
-            return clientInfo;
-        }
+        //    return clientInfo;
+        //}
         private static Dictionary<uint, Skill> LoadMediaSkills()
         {
             Dictionary<uint, Skill> result = new Dictionary<uint, Skill>();

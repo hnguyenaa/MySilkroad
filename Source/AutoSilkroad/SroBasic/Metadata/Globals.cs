@@ -9,6 +9,9 @@ namespace SroBasic.Metadata
 {
     public static class Globals
     {
+
+        public static bool IsDebug = false;
+
         public static uint session;
         public static Character Character = new Character();
 

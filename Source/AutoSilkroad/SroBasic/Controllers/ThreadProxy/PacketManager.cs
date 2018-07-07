@@ -1,5 +1,4 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using SroBasic.Controllers.ParsePacket;
 using System;
 using System.Collections.Generic;
@@ -13,15 +12,15 @@ namespace SroBasic.Controllers.ThreadProxy
     {
         public static void Manager(Packet packet)
         {
-            switch (packet.Opcode)
-            {
-                case 0x3013://SERVER_AGENT_CHARACTER_DATA
-                    DebugPacket.SavePacketToFile(packet);
-                    break;
-                case 0x3020://ConfirmCharacterSpawn
-                    DebugPacket.SavePacketToFile(packet);
-                    break;
-            }
+            //switch (packet.Opcode)
+            //{
+            //    case 0x3013://SERVER_AGENT_CHARACTER_DATA
+            //        DebugPacket.SavePacketToFile(packet);
+            //        break;
+            //    case 0x3020://ConfirmCharacterSpawn
+            //        DebugPacket.SavePacketToFile(packet);
+            //        break;
+            //}
 
             switch (packet.Opcode)
             {

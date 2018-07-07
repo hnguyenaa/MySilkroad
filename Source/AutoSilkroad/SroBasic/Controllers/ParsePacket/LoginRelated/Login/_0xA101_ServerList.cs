@@ -1,6 +1,6 @@
 ﻿using SilkroadSecurityApi;
-using SroBasic.Component.Logic;
 using SroBasic.Controllers.ThreadProxy;
+using SroBasic.Metadata;
 using SroBasic.Models.PacketData;
 using System;
 using System.Collections.Generic;
@@ -38,7 +38,7 @@ namespace SroBasic.Controllers.ParsePacket
                 ushort cur = 0;
                 ushort max = 0;
 
-                int locale = Globals.clientInfo.Locale;
+                int locale = Metadata.Configs.ClientConfig.Locale;
 
                 id = packet.ReadUInt16();
 
@@ -105,7 +105,10 @@ namespace SroBasic.Controllers.ParsePacket
                 Views.BindingFrom.BindingServerCombobox(data);
                 if (isClientless)
                 {
-                    var p = GeneratePacket.LoginServer(Globals.clientInfo.Locale, Globals.loginUser, Globals.loginPass, data[0].ID);
+                    var locale = Configs.ClientConfig.Locale;
+                    var user = Configs.LoginConfig.Username;
+                    var pass = Configs.LoginConfig.Password;
+                    var p = GeneratePacket.LoginServer(locale, user, pass, data[0].ID);
                     ProxyClientless.SendPacketToGatewayRemote(p);
                 }
             }

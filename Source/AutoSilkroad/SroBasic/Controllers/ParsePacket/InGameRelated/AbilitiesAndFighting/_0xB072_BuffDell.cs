@@ -39,8 +39,39 @@ namespace SroBasic.Controllers.ParsePacket
         }
         public static void DoWork(Packet packet)
         {
-            var data = Parse(packet);
-            Share(data);
+            if (Metadata.Globals.IsDebug)
+                ParseDebug(packet);
+            else
+            {
+                //var data = Parse(packet);
+                //Share(data);
+                ParseCompact(packet);
+            }
+            
+        }
+        private static void ParseDebug(Packet packet)
+        {
+            uint statusCode = packet.ReadUInt8();
+            if (statusCode == 0x01)
+            {
+                uint tempId = packet.ReadUInt32();
+                Views.BindingFrom.WriteLine("[0xB072] buff End: " + tempId);
+
+                Metadata.Globals.Character.RefreshBuffSkill(tempId);
+                Bot.BotInput.RepeatBuffSkill(tempId);
+            }
+        }
+
+
+        private static void ParseCompact(Packet packet)
+        {
+            uint statusCode = packet.ReadUInt8();
+            if (statusCode == 0x01)
+            {
+                uint tempId = packet.ReadUInt32();
+
+                Bot.BotInput.RepeatBuffSkill(tempId);
+            }
         }
     }
 }

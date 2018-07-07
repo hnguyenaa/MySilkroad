@@ -7,15 +7,18 @@ using System.Threading.Tasks;
 
 namespace SroBasic.Models
 {
-    public class ClientInfo
+    public class ClientConfig
     {
+        public string ClientPath { get; set; }
         public string SroType { get; set; }
         public byte Locale { get; set; }
         public uint Version { get; set; }
-        public int Port { get; set; }
-        public IPAddress IP { get; set; }
+        public IPEndPoint GatewayServer { get; set; }
 
-        public IPEndPoint RedirectGatewayServer { get; set; }
-        public IPEndPoint RedirectAgentSetver { get; set; }
+        //public int Port { get; set; }
+        //public IPAddress IP { get; set; }
+
+        //public IPEndPoint RedirectGatewayServer { get; set; }
+        //public IPEndPoint RedirectAgentSetver { get; set; }
     }
 }
