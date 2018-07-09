@@ -99,25 +99,30 @@ namespace SroBasic.Controllers.ParsePacket
             {
                 if (data.IsStillAlive)
                 {
-                    Views.BindingFrom.WriteLine("[0xB045][Object Select] select object id =" + data.ObjectSelectID);
+                    Views.BindingFrom.WriteLine("[0xB045][Object Select] => call [DoWork_SelectMobSuccess] select object id =" + data.ObjectSelectID);
                     //Metadata.Globals.SetMobSelected(data.ObjectSelectID);
 
                     Bot.BotInput.DoWork_SelectMobSuccess(data.ObjectSelectID);
                 }
                 else
                 {
-                    Bot.BotInput.DoWork_SelectMobFall();
+                    Bot.BotInput.DoWork_SelectMobFail();
                 }
             }
             else
             {
-                Bot.BotInput.DoWork_SelectMobFall();
+                Bot.BotInput.DoWork_SelectMobFail();
             }
         }
         public static void DoWork(Packet packet)
         {
             var data = Parse(packet);
             Share(data);
+        }
+
+        private static void ParseDebug(Packet packet)
+        {
+
         }
     }
 }

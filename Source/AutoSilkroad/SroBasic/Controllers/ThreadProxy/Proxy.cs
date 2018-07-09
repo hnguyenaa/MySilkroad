@@ -291,11 +291,11 @@ namespace SroBasic.Controllers.ThreadProxy
                             Packet packet = kvp.Value;
                             TransferBuffer buffer = kvp.Key;
 
-                            byte[] packet_bytes = packet.GetBytes();
+                            //byte[] packet_bytes = packet.GetBytes();
 
                             //Print log
                             //if (!IgnoreOpcodes.Contains(packet.Opcode))
-                                Views.BindingFrom.WriteLine(String.Format("[P->C][GW_LC][{0:X4}][{1} bytes]{2}{3}{4}{5}", packet.Opcode, packet_bytes.Length, packet.Encrypted ? "[Encrypted]" : "", packet.Massive ? "[Massive]" : "", Environment.NewLine, Utility.HexDump(packet_bytes)));
+                                //Views.BindingFrom.WriteLine(String.Format("[P->C][GW_LC][{0:X4}][{1} bytes]{2}{3}{4}{5}", packet.Opcode, packet_bytes.Length, packet.Encrypted ? "[Encrypted]" : "", packet.Massive ? "[Massive]" : "", Environment.NewLine, Utility.HexDump(packet_bytes)));
                             //PrintDebugPacket(packet, TransferType.PtoC, ProxyType.GW_LC);
                             gw_local_stream.Write(buffer.Buffer, 0, buffer.Size);
                         });

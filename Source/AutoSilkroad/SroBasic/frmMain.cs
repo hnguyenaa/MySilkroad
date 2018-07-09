@@ -602,7 +602,7 @@ namespace SroBasic
                 Directory.CreateDirectory("data");
             }
 
-            string path = @"\data\skill_train.txt";
+            string path = Environment.CurrentDirectory + @"\data\skill_train.txt";
             using (TextWriter write = File.CreateText(path))
             {
                 if (Metadata.Globals.Character.SkillTains.Count > 0)
@@ -617,7 +617,7 @@ namespace SroBasic
 
         private void btnLoadSkillTrain_Click(object sender, EventArgs e)
         {
-            string path = @"\data\skill_train.txt";
+            string path = Environment.CurrentDirectory + @"\data\skill_train.txt";
             if (!File.Exists(path))
             {
                 return;
@@ -670,6 +670,11 @@ namespace SroBasic
         private void chkDebugPacket_CheckedChanged(object sender, EventArgs e)
         {
             Metadata.Globals.IsDebug = chkDebugPacket.Checked;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            var skill = Metadata.Globals.Character.GetNextSkillTrain();
         }
 
 

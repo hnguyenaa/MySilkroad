@@ -65,8 +65,9 @@ namespace SroBasic.Controllers.ParsePacket
                 uint skillTypeId = packet.ReadUInt32();
                 uint tempId = packet.ReadUInt32();
 
-                Views.BindingFrom.WriteLine("[0xB0BD] id, temp: " + skillTypeId + ", " + tempId);
-                Globals.Character.UsingSkill(skillTypeId, tempId);
+                Views.BindingFrom.WriteLine("[0xB0BD][Buff Info] id, temp: " + skillTypeId + ", " + tempId);
+                //Globals.Character.UsingSkill(skillTypeId, tempId);
+                Bot.BotInput.DoWork_StartCastSkill(skillTypeId, tempId);
             }
         }
         

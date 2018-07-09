@@ -34,6 +34,7 @@ namespace SroBasic.Metadata
             directory = GetDirectoryConfig();
             ClientConfig = LoadingClientConfig(directory);
             PatchConfig = LoadingPatchConfig(directory);
+            LoginConfig = LoadingLoginConfig(directory);
         }
 
         private static string GetDirectoryConfig()

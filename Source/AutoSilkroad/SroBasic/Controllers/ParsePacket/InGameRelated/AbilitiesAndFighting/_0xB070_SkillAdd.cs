@@ -139,12 +139,13 @@ namespace SroBasic.Controllers.ParsePacket
             if (Globals.IsDebug)
             {
                 ParseDebug(packet);
-                var data = Parse(packet);
-                Share(data);
+                //var data = Parse(packet);
+                //Share(data);
             }
             else
             {
-                ParseCompact(packet);
+                ParseDebug(packet);
+                //ParseCompact(packet);
             }
             //var data = Parse(packet);
             //Share(data);
@@ -180,30 +181,46 @@ namespace SroBasic.Controllers.ParsePacket
             //}
             #endregion
 
-            byte statusCode = packet.ReadUInt8();
-            var status = (Status)statusCode; 
-            if (status == Status.Success)
+            try
             {
-                ushort castTypecode = packet.ReadUInt16();
-                var castType = (CastType)castTypecode;
-                if (castType == CastType.Attack)
-                {
-                    uint skill_id = packet.ReadUInt32();
-                    uint caster_world_id = packet.ReadUInt32();
-                    if (caster_world_id == Metadata.Globals.Character.UniqueID)
-                    {
-                        uint temp_skill_id = packet.ReadUInt32();
-                        uint target_world_id = packet.ReadUInt32();
-                        byte instant_response = packet.ReadUInt8();
 
-                        var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
-                        Bot.BotInput.StartUsingSkillTrain(skill);
+
+
+                byte statusCode = packet.ReadUInt8();
+                var status = (Status)statusCode;
+                if (status == Status.Success)
+                {
+                    ushort castTypecode = packet.ReadUInt16();
+                    var castType = (CastType)castTypecode;
+                    if (castType == CastType.Attack)
+                    {
+                        uint skill_id = packet.ReadUInt32();
+                        uint caster_world_id = packet.ReadUInt32();
+                        if (caster_world_id == Metadata.Globals.Character.UniqueID)
+                        {
+                            uint temp_skill_id = packet.ReadUInt32();
+                            uint target_world_id = packet.ReadUInt32();
+                            byte instant_response = packet.ReadUInt8();
+
+                            Bot.BotInput.DoWork_StartCastSkill(skill_id, temp_skill_id);
+                        }
                     }
                 }
-            }
-            else
-            {
+                else
+                {
+                    Views.BindingFrom.WriteDebug(Environment.NewLine + "======start [0xB070] Skill Add ======");
+                    Views.BindingFrom.WriteDebug("status = " + status + " | " + statusCode.ToString("X2"));
+                    ushort castTypecode = packet.ReadUInt16(); Views.BindingFrom.WriteDebug("castTypecode = " + castTypecode + " | " + castTypecode.ToString("X4"));
 
+                    Views.BindingFrom.WritePacket(packet);
+                    Views.BindingFrom.WriteDebug(Environment.NewLine + "======end [0xB070] Skill Add ======");
+
+                    Bot.BotInput.DoWork_SelectMobFail();
+                }
+            }
+            catch (Exception ex)            {
+                Views.BindingFrom.WriteDebug("[Error][0xB070] " + ex.Message);
+                Views.BindingFrom.WritePacket(packet);
             }
         }
 
@@ -225,8 +242,8 @@ namespace SroBasic.Controllers.ParsePacket
             if (statusCode == 0x01)
             {
                 ushort opcode = packet.ReadUInt16();// code = 0x3002:attack ; 0x3000:buff
-                if (opcode == 0x3002) //attack
-                {
+                //if (opcode == 0x3002) //attack
+                //{
                     uint skill_id = packet.ReadUInt32();
                     uint caster_world_id = packet.ReadUInt32();
                     if (caster_world_id == Metadata.Globals.Character.UniqueID)
@@ -235,10 +252,18 @@ namespace SroBasic.Controllers.ParsePacket
                         //uint target_world_id = packet.ReadUInt32();
                         //byte instant_response = packet.ReadUInt8();
 
-                        var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
-                        Bot.BotInput.StartUsingSkillTrain(skill);
+                        //if (opcode == 0x3002)
+                        //{
+                           
+                        //}
+                        Bot.BotInput.DoWork_StartCastSkill(skill_id, temp_skill_id);
+                       
                     }
-                }
+                //}
+            }
+            else
+            {
+
             }
         }
     }

@@ -31,7 +31,7 @@ namespace SroBasic.Controllers.Bot
         internal static void Start()
         {
             _status = BotStatus.Start;
-            SelectNextMobForAttack();
+            SelectMobForAttack();
         }
         internal static void Stop()
         {
@@ -40,16 +40,20 @@ namespace SroBasic.Controllers.Bot
 
         static BotAction _BotAction = BotAction.None;
         static BotStatus _status = BotStatus.None;
-        static System.Windows.Forms.Timer timerWaitingCastedSkill = new System.Windows.Forms.Timer();
+        static System.Timers.Timer timerWaitingCastedSkill = new System.Timers.Timer();
         static System.Windows.Forms.Timer timerDelayFindMob = new System.Windows.Forms.Timer();
         static uint _mobId = 0;
         static BotInput()
         {
-            timerWaitingCastedSkill.Tick += new System.EventHandler(timerWaitingCastedSkill_Elapsed);
+            timerWaitingCastedSkill.Elapsed += new System.Timers.ElapsedEventHandler(timerWaitingCastedSkill_Elapsed);
         }
 
         static void timerWaitingCastedSkill_Elapsed(object sender, EventArgs e)
         {
+
+            //Views.BindingFrom.WriteLine("[timerWaitingCastedSkill_Elapsed] call [Character.GetNextSkillTrain]  => request cast skill");
+            timerWaitingCastedSkill.Stop();
+            timerWaitingCastedSkill.Enabled = false;
             Packet packet = new Packet(0x7074);
             uint objectId = _mobId;
             var nextSkill = Globals.Character.GetNextSkillTrain();
@@ -57,67 +61,25 @@ namespace SroBasic.Controllers.Bot
             {
                 if (nextSkill.UsingType != 2)
                 {
+                    Views.BindingFrom.WriteLine("[timerWaitingCastedSkill_Elapsed] Request BuffSkill :" + nextSkill.Name + "|" + nextSkill.ID + "|" + nextSkill.TemporaryID);
                     packet = GeneratePacket.BuffSkill(nextSkill.ID);
                 }
                 else
                 {
+                    Views.BindingFrom.WriteLine("[timerWaitingCastedSkill_Elapsed] Request AttackSkill :" + nextSkill.Name + "|" + nextSkill.ID + "|" + nextSkill.TemporaryID);
                     packet = GeneratePacket.AttackSkill(nextSkill.ID, objectId);
                 }
             }
             else
             {
+                Views.BindingFrom.WriteLine("[timerWaitingCastedSkill_Elapsed] Request AttackNormal ");
                 packet = GeneratePacket.AttackNormal(objectId);
             }
 
             ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
-            timerWaitingCastedSkill.Enabled = false;
-        }
-
-
-        /// <summary>
-        /// <para>From: _0x3015_SingleSpawn, _0x3019_GroupeSpawn</para>
-        /// when mob spawn, if not select then select new mob
-        /// </summary>
-        public static void CheckMobSpawn()
-        {
             
-            //if (BotMedia.BotType == TypeOfBotWhenRun.None) return;
-            //if (BotMedia.MobAttacked.Status == StatusOfMobAttacked.None ||
-            //    BotMedia.MobAttacked.Status == StatusOfMobAttacked.Died)
-            //{
-            //    //Views.BindingView.WriteLine("[BotInput::CheckMobSpawn] call SelectNewMob()");
-            //    BotOutput.SelectNewMob();
-            //}
-            ////else
-            ////   // Views.BindingView.WriteLine("[BotInput::CheckMobSpawn][" + BotMedia.MobAttacked.Status + "] check fall");
         }
 
-        public static void CheckMobDespawn(uint mobId)
-        {
-            CheckMobDie(mobId);
-        }
-
-        /// <summary>
-        /// <para>From: _0x30BF_ObjectDie</para>
-        /// <para>if mob die = mob attacked, select new mob</para>
-        /// <para>else continue attack</para>
-        /// </summary>
-        /// <param name="mobID"></param>
-        public static void CheckMobDie(uint mobID)
-        {
-            //if (BotMedia.BotType == TypeOfBotWhenRun.None) return;
-
-            //if (BotMedia.MobAttacked.ID == mobID)
-            //{
-            //    BotMedia.CurrentCastSkill.Resert();
-            //    BotMedia.MobAttacked.SetMobDie();
-
-            //    //CurrentCastTimeSkill = 0;
-            //    //Views.BindingView.WriteLine("[BotInput:CheckMobDie] mob die=> SelectNewMob");
-
-            //    BotOutput.SelectNewMob();
-            //}
-        }
 
         /// <summary>
         /// <para>From: _0xB070_SkillAdd</para>
@@ -152,33 +114,14 @@ namespace SroBasic.Controllers.Bot
         /// <param name="mobID"></param>
         public static void AttackThisMob(uint mobId)
         {
+            Views.BindingFrom.WriteLine("[AttackThisMob] call [timerWaitingCastedSkill_Elapsed] id = " + mobId);
             _mobId = mobId;
             timerWaitingCastedSkill_Elapsed(null, null);
-        }
-
-
-        /// <summary>
-        /// <para>From: _0xB071_SkillCasted</para>
-        /// Continue attack if mob doesn't die
-        /// </summary>
-        public static void MobAttackedStillAlive()
-        {
-            //if (BotMedia.BotType == TypeOfBotWhenRun.None) return;
-
-            ////Views.BindingView.WriteLine("[BotInput:MobAttackedStillAlive] call ContinueAttack()");
-
-            //BotOutput.ContinueAttack();
         }
 
         public static void ContinueAfterCastSkill()
         {
             BotOutput.CastSkill_Buff();
-        }
-
-        public static void SkillAdd_BeginCastBuffSkill(uint skillID)
-        {
-            //var skilltrain = Globals.Character.UpdateBuffSkill_BeginCastSkill(skillID);
-
         }
 
         /// <summary>
@@ -195,7 +138,7 @@ namespace SroBasic.Controllers.Bot
 
                 if (skill != null && skill.UsingType != 2)
                 {
-                    Views.BindingFrom.WriteLine("RepeatBuffSkill :" + skill.Name);
+                    //Views.BindingFrom.WriteLine("RepeatBuffSkill :" + skill.Name);
                     packet = GeneratePacket.BuffSkill(skill.ID);
                     ThreadProxy.Proxy.SendPacketToAgentRemote(packet);
                 }
@@ -279,10 +222,15 @@ namespace SroBasic.Controllers.Bot
 
         internal static void StartUsingSkillTrain(Models.Skilltrain skill)
         {
+            Views.BindingFrom.WriteLine("[StartUsingSkillTrain] waiting castTime: " + skill.CastTime + " | " + skill.Name + ", timerWaitingCastedSkill.Enabled = " + timerWaitingCastedSkill.Enabled);
             if (skill.CastTime > 0 && !timerWaitingCastedSkill.Enabled)
             {
+
                 timerWaitingCastedSkill.Interval = skill.CastTime;
+                timerWaitingCastedSkill.Start();
+                timerWaitingCastedSkill.AutoReset = false;
                 timerWaitingCastedSkill.Enabled = true;
+                //Views.BindingFrom.WriteLine("[StartUsingSkillTrain] set timerWaitingCastedSkill " + timerWaitingCastedSkill.Interval + " " + timerWaitingCastedSkill.Enabled);
             }
             else
             {
@@ -298,10 +246,10 @@ namespace SroBasic.Controllers.Bot
                 item.Value.Distance = distance;
             }
         }
-        internal static void SelectNextMobForAttack()
+        internal static void SelectMobForAttack()
         {
             if (_status != BotStatus.Start) return;
-
+            //Views.BindingFrom.WriteLine(Environment.NewLine + Environment.NewLine + "[SelectNextMobForAttack] => call [GetNearMobForAttack] => call  [RequestSelectMob]");
             var mob = GetNearMobForAttack();
             if (mob != null && mob.UniqueID > 0)
             {
@@ -312,21 +260,7 @@ namespace SroBasic.Controllers.Bot
         private static Models.MobSpawn GetNearMobForAttack()
         {
             var mob = Globals.GetMobMinDistance();
-
-
-            //if (Globals.MobSpawns.Count > 0)
-            //{
-            //    var minDistance = Globals.MobSpawns.Min(a => a.Distance);
-            //    var mob = Globals.MobSpawns.FirstOrDefault(a => a.Distance == minDistance);
-            //    if (mob != null && mob.UniqueID > 0)
-            //        mob.IsSelected = true;
-
-            //    return mob;
-            //}
-            //else
-            //{
-            //    return null;
-            //}
+            //Views.BindingFrom.WriteLine("[GetNearMobForAttack] {id, distance} = {" + mob.UniqueID + ", " + mob.Distance + "}");
 
             return mob;
         }
@@ -364,22 +298,26 @@ namespace SroBasic.Controllers.Bot
         {
             if (_status != BotStatus.Start) return;
 
+            Views.BindingFrom.WriteLine("[DoWork_SelectMobSuccess] => call [AttackThisMob] id = " + mobId);
             _BotAction = BotAction.SelectSuccess;
             _mobId = mobId;
 
             Bot.BotInput.AttackThisMob(mobId);
         }
 
-        internal static void DoWork_SelectMobFall()
+        internal static void DoWork_SelectMobFail()
         {
-            if (_status != BotStatus.Start) return;
 
+            if (_status != BotStatus.Start) return;
+            _mobId = 0;
+            Views.BindingFrom.WriteLine("[DoWork_MobDie] => call [SelectNextMobForAttack]");
             _BotAction = BotAction.SelectFall;
-            Bot.BotInput.SelectNextMobForAttack();
+            Bot.BotInput.SelectMobForAttack();
         }
 
         private static void RequestSelectMob(uint mobId)
         {
+            Views.BindingFrom.WriteLine("[RequestSelectMob] id = " + mobId);
             //Create packet  select mob
             Packet packet = new Packet(0x7045);//CLIENT_OBJECTSELECT
             packet.WriteUInt32(mobId);
@@ -397,14 +335,14 @@ namespace SroBasic.Controllers.Bot
 
             if (mobId == _mobId || mobId == 0)
             {
-                Views.BindingFrom.WriteLine("[0x30BF][DoWork_MobDie] id = " + mobId);
+                Views.BindingFrom.WriteLine("[0x30BF][DoWork_MobDie] => call [SelectNextMobForAttack] id = " + mobId);
                 _mobId = 0;
                 Bot.BotInput.UpdateDistanceAllMob();
-                Bot.BotInput.SelectNextMobForAttack();
+                Bot.BotInput.SelectMobForAttack();
             }
         }
 
-        internal static void DoWord_MobBehindObstacle()
+        internal static void DoWork_MobBehindObstacle()
         {
             if (_status != BotStatus.Start) return;
 
@@ -424,6 +362,19 @@ namespace SroBasic.Controllers.Bot
                 if(mob != null && mob.UniqueID > 0)
                     RequestSelectMob(mob.UniqueID);
             }
+        }
+
+        internal static void DoWork_BuffEnd(uint tempId)
+        {
+            Views.BindingFrom.WriteLine("[DoWork_BuffEnd] => call [Character.RefreshBuffSkill]  id = " + tempId);
+            Metadata.Globals.Character.RefreshBuffSkill(tempId);
+        }
+
+        internal static void DoWork_StartCastSkill(uint skill_id, uint temp_skill_id)
+        {
+            Views.BindingFrom.WriteLine("[DoWork_StartCastSkill] => call [Character.UsingSkill] => Call [StartUsingSkillTrain]");
+            var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
+            Bot.BotInput.StartUsingSkillTrain(skill);
         }
     }
 }

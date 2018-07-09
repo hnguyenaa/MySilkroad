@@ -1,4 +1,5 @@
-﻿using SroBasic.Models;
+﻿using SilkroadSecurityApi;
+using SroBasic.Models;
 using SroBasic.Models.PacketData;
 using System;
 using System.Collections.Generic;
@@ -50,6 +51,18 @@ namespace SroBasic.Views
             DateTime now = DateTime.Now;
             str = String.Format("{0}:{1}:{2}:{3}", now.Hour, now.Minute, now.Second, now.Millisecond) + Environment.NewLine + str + Environment.NewLine;
             frmMain.PrintLog(str);
+        }
+
+        public static void WriteDebug(string str)
+        {
+            DateTime now = DateTime.Now;
+            str = str + Environment.NewLine;
+            frmMain.PrintLog(str);
+        }
+        public static void WritePacket(Packet packet)
+        {
+            byte[] packet_bytes = packet.GetBytes();
+            Views.BindingFrom.WriteLine(String.Format("[P->C][GW_LC][{0:X4}][{1} bytes]{2}{3}{4}{5}", packet.Opcode, packet_bytes.Length, packet.Encrypted ? "[Encrypted]" : "", packet.Massive ? "[Massive]" : "", Environment.NewLine, Utility.HexDump(packet_bytes)));
         }
 
         #region Binding From

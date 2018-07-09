@@ -148,12 +148,34 @@ namespace SroBasic.Models
             return result;
         }
 
+
         public Skilltrain GetNextSkillTrain()
         {
             Skilltrain skill = new Skilltrain();
-            foreach (var item in SkillTains)
+
+            var buffList = this.SkillTains.Where(a => a.UsingType == 1 && !a.Type.Contains("_GIGONGTA_")).OrderBy(a=>a.CastTime).ToList();
+
+            if (buffList != null && buffList.Count > 0)
             {
-                if (item.MPRequest < MP)
+                foreach (var item in buffList)
+                {
+                    if (item.MPRequest < MP && item.TemporaryID == 0)
+                    {
+                        double timePass = DateTime.Now.Subtract(item.TimeUsing).TotalMilliseconds;
+                        uint timeWatting = item.Cooldown + item.CastTime;
+                        if (timePass > timeWatting)
+                        {
+                            return item;
+                        }
+                    }
+                }
+            }
+
+            var imbueList = this.SkillTains.Where(a => a.UsingType == 1 && a.Type.Contains("_GIGONGTA_")).ToList();
+
+            foreach (var item in imbueList)
+            {
+                if (item.MPRequest < MP && item.TemporaryID == 0)
                 {
                     double timePass = DateTime.Now.Subtract(item.TimeUsing).TotalMilliseconds;
                     uint timeWatting = item.Cooldown + item.CastTime;
@@ -163,6 +185,25 @@ namespace SroBasic.Models
                     }
                 }
             }
+
+            var attackList = this.SkillTains.Where(a => a.UsingType == 2).OrderBy(a=>a.CastTime).ToList();
+
+            foreach (var item in attackList)
+            {
+                if (item.MPRequest < MP)
+                {
+                    double timePass = DateTime.Now.Subtract(item.TimeUsing).TotalMilliseconds;
+                    uint timeWatting = item.Cooldown + item.CastTime;
+
+                    //Views.BindingFrom.WriteLine(item.Name + "|" + timeWatting + "|" + timePass);
+                    if (timePass > timeWatting)
+                    {
+                        return item;
+                    }
+                }
+            }
+
+
             return skill;
         }
 

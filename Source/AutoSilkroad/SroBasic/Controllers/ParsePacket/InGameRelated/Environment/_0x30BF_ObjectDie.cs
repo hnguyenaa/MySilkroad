@@ -43,8 +43,26 @@ namespace SroBasic.Controllers.ParsePacket
         }
         public static void DoWork(Packet packet)
         {
-            var data = Parse(packet);
-            Share(data);
+
+            //var data = Parse(packet);
+            //Share(data);
+            ParseCompact(packet);
+        }
+
+        private static void ParseCompact(Packet packet)
+        {
+            uint objectID = packet.ReadUInt32();
+           
+            byte flag = packet.ReadUInt8();
+            if (flag == 0x00)
+            {
+                Metadata.Globals.RemoveMob(objectID);
+                flag = packet.ReadUInt8();
+                if (flag == 0x02 || flag == 0x03)
+                {
+                    Bot.BotInput.DoWork_MobDie(objectID);
+                }
+            }
         }
     }
 }

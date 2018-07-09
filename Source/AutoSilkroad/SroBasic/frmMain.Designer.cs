@@ -88,8 +88,10 @@
             this.timerClientPing = new System.Windows.Forms.Timer(this.components);
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
-            this.chkExternLoader = new System.Windows.Forms.CheckBox();
             this.chkDebugPacket = new System.Windows.Forms.CheckBox();
+            this.chkExternLoader = new System.Windows.Forms.CheckBox();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.button2 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -107,6 +109,7 @@
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
+            this.tabPage6.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -116,6 +119,7 @@
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Controls.Add(this.tabPage5);
+            this.tabControl1.Controls.Add(this.tabPage6);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(0, 134);
             this.tabControl1.Name = "tabControl1";
@@ -672,17 +676,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(234, 21);
+            this.button1.Location = new System.Drawing.Point(42, 20);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(131, 23);
             this.button1.TabIndex = 57;
-            this.button1.Text = "Debug Character Data";
+            this.button1.Text = "Test timer";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnDebugCharacterData
             // 
-            this.btnDebugCharacterData.Location = new System.Drawing.Point(401, 5);
+            this.btnDebugCharacterData.Location = new System.Drawing.Point(200, 20);
             this.btnDebugCharacterData.Name = "btnDebugCharacterData";
             this.btnDebugCharacterData.Size = new System.Drawing.Size(131, 23);
             this.btnDebugCharacterData.TabIndex = 2;
@@ -731,25 +735,13 @@
             this.panel3.Controls.Add(this.chkDebugPacket);
             this.panel3.Controls.Add(this.chkExternLoader);
             this.panel3.Controls.Add(this.btnStart);
-            this.panel3.Controls.Add(this.button1);
             this.panel3.Controls.Add(this.chkClientless);
-            this.panel3.Controls.Add(this.btnDebugCharacterData);
             this.panel3.Controls.Add(this.btnStartTrain);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Top;
             this.panel3.Location = new System.Drawing.Point(0, 0);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(736, 134);
             this.panel3.TabIndex = 59;
-            // 
-            // chkExternLoader
-            // 
-            this.chkExternLoader.AutoSize = true;
-            this.chkExternLoader.Location = new System.Drawing.Point(17, 73);
-            this.chkExternLoader.Name = "chkExternLoader";
-            this.chkExternLoader.Size = new System.Drawing.Size(88, 17);
-            this.chkExternLoader.TabIndex = 59;
-            this.chkExternLoader.Text = "Extern loader";
-            this.chkExternLoader.UseVisualStyleBackColor = true;
             // 
             // chkDebugPacket
             // 
@@ -761,6 +753,39 @@
             this.chkDebugPacket.Text = "Debug packet";
             this.chkDebugPacket.UseVisualStyleBackColor = true;
             this.chkDebugPacket.CheckedChanged += new System.EventHandler(this.chkDebugPacket_CheckedChanged);
+            // 
+            // chkExternLoader
+            // 
+            this.chkExternLoader.AutoSize = true;
+            this.chkExternLoader.Location = new System.Drawing.Point(17, 73);
+            this.chkExternLoader.Name = "chkExternLoader";
+            this.chkExternLoader.Size = new System.Drawing.Size(88, 17);
+            this.chkExternLoader.TabIndex = 59;
+            this.chkExternLoader.Text = "Extern loader";
+            this.chkExternLoader.UseVisualStyleBackColor = true;
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this.button2);
+            this.tabPage6.Controls.Add(this.button1);
+            this.tabPage6.Controls.Add(this.btnDebugCharacterData);
+            this.tabPage6.Location = new System.Drawing.Point(4, 22);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(728, 320);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "tabPage6";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(337, 20);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(131, 23);
+            this.button2.TabIndex = 58;
+            this.button2.Text = "Test Get Skill";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // frmMain
             // 
@@ -797,6 +822,7 @@
             this.panel2.ResumeLayout(false);
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
+            this.tabPage6.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -864,6 +890,8 @@
         private System.Windows.Forms.Panel panel3;
         public System.Windows.Forms.CheckBox chkExternLoader;
         public System.Windows.Forms.CheckBox chkDebugPacket;
+        private System.Windows.Forms.TabPage tabPage6;
+        private System.Windows.Forms.Button button2;
     }
 }
 

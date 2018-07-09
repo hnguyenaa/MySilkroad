@@ -98,8 +98,72 @@ namespace SroBasic.Controllers.ParsePacket
         }
         public static void DoWork(Packet packet)
         {
-            var data = Parse(packet);
-            Share(data);
+            if (Metadata.Globals.IsDebug)
+            {
+                var data = Parse(packet);
+                Share(data);
+            }
+            else
+            {
+                //var data = Parse(packet);
+                //Share(data);
+                ParseCompact(packet);
+            }
+        }
+
+        private static void ParseCompact(Packet packet)
+        {
+            uint uniqueID = packet.ReadUInt32();
+            byte resultCode = packet.ReadUInt8();
+            if (resultCode == 0x01)
+            {
+                byte xsec = packet.ReadUInt8();
+                byte ysec = packet.ReadUInt8();
+                float xcoord = 0;
+                float zcoord = 0;
+                float ycoord = 0;
+                if (ysec == 0x80)
+                {
+                    xcoord = packet.ReadUInt16() - packet.ReadUInt16();
+                    zcoord = packet.ReadUInt16() - packet.ReadUInt16();
+                    ycoord = packet.ReadUInt16() - packet.ReadUInt16();
+                }
+                else
+                {
+                    xcoord = packet.ReadUInt16();
+                    zcoord = packet.ReadUInt16();
+                    ycoord = packet.ReadUInt16();
+                }
+                int real_xcoord = 0;
+                int real_ycoord = 0;
+                if (xcoord > 32768)
+                {
+                    real_xcoord = (int)(65536 - xcoord);
+                }
+                else
+                {
+                    real_xcoord = (int)xcoord;
+                }
+                if (ycoord > 32768)
+                {
+                    real_ycoord = (int)(65536 - ycoord);
+                }
+                else
+                {
+                    real_ycoord = (int)ycoord;
+                }
+
+                Coordinate coordinate = new Coordinate(xsec, ysec, real_xcoord, real_ycoord, zcoord);
+                if (Globals.Character.UniqueID == uniqueID)
+                {
+                    Globals.Character.Coordinate = coordinate;
+                    Views.BindingFrom.BindingCharacter(Views.BindingCharacterType.Coordinate);
+                }
+                else
+                {
+                    Metadata.Globals.SetMobCoordinate(uniqueID, coordinate);
+                }
+            }
         }
     }
 }

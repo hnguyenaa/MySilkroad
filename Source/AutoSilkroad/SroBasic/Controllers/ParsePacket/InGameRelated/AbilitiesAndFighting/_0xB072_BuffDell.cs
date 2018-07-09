@@ -57,8 +57,7 @@ namespace SroBasic.Controllers.ParsePacket
                 uint tempId = packet.ReadUInt32();
                 Views.BindingFrom.WriteLine("[0xB072] buff End: " + tempId);
 
-                Metadata.Globals.Character.RefreshBuffSkill(tempId);
-                Bot.BotInput.RepeatBuffSkill(tempId);
+                Bot.BotInput.DoWork_BuffEnd(tempId);
             }
         }
 
@@ -70,7 +69,7 @@ namespace SroBasic.Controllers.ParsePacket
             {
                 uint tempId = packet.ReadUInt32();
 
-                Bot.BotInput.RepeatBuffSkill(tempId);
+                Bot.BotInput.DoWork_BuffEnd(tempId);
             }
         }
     }

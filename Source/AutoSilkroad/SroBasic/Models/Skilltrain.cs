@@ -11,6 +11,7 @@ namespace SroBasic.Models
     {
         public uint ID { get; set; }
         public string Name { get; set; }
+        public string Type { get; private set; }
         public string GroupType { get; set; }
         public ushort MPRequest { get; set; }
         public ushort CastTime { get; set; }
@@ -47,6 +48,7 @@ namespace SroBasic.Models
             Name = skill.Name;
             GroupType = skill.GroupType;
             UsingType = skill.UsingType;
+            Type = skill.Type;
 
             var listSkills = MediaData.Skills.Where(a => a.Key == skill.ID && a.Value.GroupType == skill.GroupType).ToList();
             if (listSkills.Count > 1)
@@ -75,6 +77,7 @@ namespace SroBasic.Models
             Name = skill.Name;
             GroupType = skill.GroupType;
             UsingType = skill.UsingType;
+            Type = skill.Type;
 
             var listSkills = MediaData.Skills.Where(a => a.Key == skill.ID && a.Value.GroupType == skill.GroupType).ToList();
             if (listSkills.Count > 1)
