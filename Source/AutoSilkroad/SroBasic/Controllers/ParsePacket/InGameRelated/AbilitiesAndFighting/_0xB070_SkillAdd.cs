@@ -215,10 +215,22 @@ namespace SroBasic.Controllers.ParsePacket
                     Views.BindingFrom.WritePacket(packet);
                     Views.BindingFrom.WriteDebug(Environment.NewLine + "======end [0xB070] Skill Add ======");
 
-                    Bot.BotInput.DoWork_SelectMobFail();
+                    if (castTypecode == 0x3010)//MobBehindObstacle
+                    {
+                        Bot.BotInput.DoWork_MobBehindObstacle();
+                    }
+                    else if (castTypecode == 0x3004) // not enough MP
+                    {
+                        Bot.BotInput.DoWork_MobBehindObstacle();
+                    }
+                    else
+                    {
+                        Bot.BotInput.DoWork_NotEnoughMP_AttackNomal();
+                    }
                 }
             }
-            catch (Exception ex)            {
+            catch (Exception ex)           
+            {
                 Views.BindingFrom.WriteDebug("[Error][0xB070] " + ex.Message);
                 Views.BindingFrom.WritePacket(packet);
             }

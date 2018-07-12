@@ -298,11 +298,14 @@ namespace SroBasic.Controllers.Bot
         {
             if (_status != BotStatus.Start) return;
 
-            Views.BindingFrom.WriteLine("[DoWork_SelectMobSuccess] => call [AttackThisMob] id = " + mobId);
-            _BotAction = BotAction.SelectSuccess;
-            _mobId = mobId;
+            if (mobId != _mobId)
+            {
+                Views.BindingFrom.WriteLine("[DoWork_SelectMobSuccess] => call [AttackThisMob] id = " + mobId);
+                _BotAction = BotAction.SelectSuccess;
+                _mobId = mobId;
 
-            Bot.BotInput.AttackThisMob(mobId);
+                Bot.BotInput.AttackThisMob(mobId);
+            }
         }
 
         internal static void DoWork_SelectMobFail()
@@ -375,6 +378,11 @@ namespace SroBasic.Controllers.Bot
             Views.BindingFrom.WriteLine("[DoWork_StartCastSkill] => call [Character.UsingSkill] => Call [StartUsingSkillTrain]");
             var skill = Globals.Character.UsingSkill(skill_id, temp_skill_id);
             Bot.BotInput.StartUsingSkillTrain(skill);
+        }
+
+        internal static void DoWork_NotEnoughMP_AttackNomal()
+        {
+            throw new NotImplementedException();
         }
     }
 }
