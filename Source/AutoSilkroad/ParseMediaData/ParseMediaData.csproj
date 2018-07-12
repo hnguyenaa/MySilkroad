@@ -44,17 +44,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Form1.cs">
+    <Compile Include="Controllers\ParseSkillData.cs" />
+    <Compile Include="frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="frmMain.Designer.cs">
+      <DependentUpon>frmMain.cs</DependentUpon>
     </Compile>
+    <Compile Include="Include\Decrypter.cs" />
     <Compile Include="Models\RefObjItem.cs" />
     <Compile Include="Models\RefObjChar.cs" />
+    <Compile Include="Models\RawRefSkill.cs" />
     <Compile Include="Models\RefSkill.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmMain.resx">
+      <DependentUpon>frmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -64,6 +70,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="bin\Debug\Media\server_dep\silkroad\textdata\sv.t" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -76,6 +83,186 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\event_interface.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\event_npc_look.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\mall_notify.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\pcroom_event_interface.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\unity_server.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\event\winter_event_interface.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\aaa.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\abusefilter.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\actionwnddata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\atstructeffect.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_10000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_15000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_20000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_25000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_30000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_35000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_40000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_45000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_5000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\characterdata_50000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\charactervisualchange.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\collectionbook_item.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\collectionbook_theme.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\dg.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\divisioninfo.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\dungeoninfo.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\effectenvsnd.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\effectsound.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\erasablemastery.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\erasableskill.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\eventdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\eventguidedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\eventnpcdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\eventword.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\eventzonedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\fmncategorytreedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\fmntidgroupmapdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\force_addobject.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gachaitemset.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gachanpcmap.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gameguidedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gameworldconfigdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gameworlddata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\gateport.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\groupworld_config_forclient.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\hwanleveldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_10000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_15000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_20000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_25000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_30000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_35000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_40000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_45000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_5000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemdata_50000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\itemeffect.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\item_grouping.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\learnablemastery.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\learnableskill.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\leveldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\levelgold.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\loading.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\magicoption.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\magicoptionassign.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\mallitemmenulistdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\maxtradescaledata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\messagetipdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\npcchat.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\npcpos.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\optimize_clothes.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\questcontentsdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\questdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refabilitybyitemoptleveldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refaccesspermissionofshop.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refalchemy_mk_materialgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refalchemy_mk_recipedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refalchemy_mk_recipeshopdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refalchemy_mk_resultgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refalchemy_mk_ui.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refconditiontobuyscrapitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refconditiontosellpackageitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refconditiontosellscrapitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refentryticket.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refeventreward.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refeventrewarditems.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refextraabilitybyequipitemoptlevel.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refgachatreeforclientuidata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refitemupgradenreinforceratio.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refmagicoptbyitemoptleveldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refmagicoptgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refmappingshopgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refmappingshopwithtab.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refoptionalteleport.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refpackageitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refpricepolicyofitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refquestrewarditems.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refqusetreward.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refregion.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refrentitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refrewardpolicytobuyscrapitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refrewardpolicytosellpackageitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refrewardpolicytosellscrapitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refscrapofpackageitem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refservereventid.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refsetitemgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshop.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshopgoods.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshopgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshopitemstockperiod.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshoptab.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refshoptabgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refsiegeblessbuff.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refsiegedungeon.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\refskillbyitemoptleveldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\reftreatitemofshop.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\regioncode.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\regioninfo.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\shopdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\shopgroupdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\shopitemdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\shopitemstockquantity.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\shoptabdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegefortress.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegefortressbattlerank.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegefortressguard.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegefortressitemforge.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegefortressreward.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\siegestructupgradedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldataenc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_10000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_10000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_15000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_15000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_20000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_20000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_25000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_25000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_30000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_30000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_35000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_35000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_40000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_45000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_5000.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_5000enc.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilldata_virtual.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skilleffect.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skillgroup.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\skillmasterydata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\specialnpcdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\teleportbuilding.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\teleportdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\teleportlink.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\testsml.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textdataname.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textdata_equip&amp;skill.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textdata_object.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textevent.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\texthelp.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textquest.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textquest_otherstring.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textquest_queststring.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textquest_speech&amp;name.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\texttooltipdata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textuisystem.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\textzonename.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\type.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\usableresobjiddata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldcupitemlist.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldmapguidedata.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldmapguidedata_region.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldmap_instanceinfo.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldmap_localinfo.txt" />
+    <Content Include="bin\Debug\Media\server_dep\silkroad\textdata\worldmap_mapinfo.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

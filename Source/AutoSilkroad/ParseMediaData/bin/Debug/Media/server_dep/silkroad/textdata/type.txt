@@ -1,0 +1,5 @@
+Language = "Vietnam"
+Country = "Vietnam"
+GameType = "Silkroad_TestIn"
+MarkFTPAddr = "markftp:123456@62.75.219.24:31113"
+MarkFTPPath = "SRO_CREST"

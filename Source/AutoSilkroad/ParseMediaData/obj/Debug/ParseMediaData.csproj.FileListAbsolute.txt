@@ -1,1 +1,10 @@
 D:\WORK\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\bin\Debug\ParseMediaData.exe.config
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\bin\Debug\ParseMediaData.exe.config
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\bin\Debug\ParseMediaData.exe
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\bin\Debug\ParseMediaData.pdb
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.csprojResolveAssemblyReference.cache
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.frmMain.resources
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.Properties.Resources.resources
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.csproj.GenerateResource.Cache
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.exe
+D:\WORK\Personal\github\MySilkroad\Source\AutoSilkroad\ParseMediaData\obj\Debug\ParseMediaData.pdb
